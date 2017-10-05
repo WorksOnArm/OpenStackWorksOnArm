@@ -58,5 +58,41 @@ export OS_AUTH_URL=http://controller:35357/v3
 export OS_IDENTITY_API_VERSION=3
 EOF
 
+cat >> demo-openrc << EOF
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_NAME=demo
+export OS_USERNAME=demo
+export OS_PASSWORD=DEMO_PASS
+export OS_AUTH_URL=http://controller:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+EOF
+
+
+openstack project create --domain default \
+  --description "Service Project" service
+  
+openstack project create --domain default \
+  --description "Demo Project" demo
+  
+openstack user create --domain default \
+  --password-prompt demo
+  
+openstack role create user
+
+openstack role add --project demo --user demo user
+
+# small 
+. admin-openrc
+openstack token issue
+
+if [ $? -ne 0 ]; then
+  echo "issues generating a keystone token"
+else
+  echo "successfully issued a keystone token"
+fi
+
+
 
 
