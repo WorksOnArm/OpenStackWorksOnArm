@@ -22,6 +22,7 @@ apt -y install python-openstackclient
 
 
 # easy modification of .ini configuration files
-yum install -y crudini
+apt-get -y install crudini
+
 
 
