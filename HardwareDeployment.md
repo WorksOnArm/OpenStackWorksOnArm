@@ -27,3 +27,12 @@ Update the host files (/etc/hosts) on each of the compute and controller adding 
 10.64.67.5      compute
 10.64.67.1      controller
 ```
+
+## Validate Internal Network Connectivity
+
+Ping the compute and controller nodes from each other to validate that the hostnames and networking is running correctly.
+
+```bash
+ping compute
+ping controller
+```
