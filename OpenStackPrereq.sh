@@ -20,3 +20,8 @@ add-apt-repository -y cloud-archive:pike
 apt -y update
 apt -y install python-openstackclient
 
+
+# easy modification of .ini configuration files
+yum install -y crudini
+
+
