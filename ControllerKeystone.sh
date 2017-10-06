@@ -69,6 +69,7 @@ export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
 EOF
 
+. admin-openrc
 
 openstack project create --domain default \
   --description "Service Project" service
@@ -83,7 +84,7 @@ openstack role create user
 
 openstack role add --project demo --user demo user
 
-# small 
+# small sanity check
 . admin-openrc
 openstack token issue
 
