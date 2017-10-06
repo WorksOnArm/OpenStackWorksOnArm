@@ -1,18 +1,59 @@
 # Controller Only Below
 
+
+# private IP addr (10...)
+MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+
+## rabbitmq
 apt -y install rabbitmq-server
 rabbitmqctl add_user openstack RABBIT_PASS
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+## end of rabbitmq
 
+## memcached
 apt -y install memcached python-memcache
 # set the IP where memchaced is listening
 sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
 service memcached restart
 
+cat > /etc/etcd/etcd.conf.yml << EOF
+name: controller
+data-dir: /var/lib/etcd
+initial-cluster-state: 'new'
+initial-cluster-token: 'etcd-cluster-01'
+initial-cluster: controller=http://${MY_IP}:2380
+initial-advertise-peer-urls: http://${MY_IP}:2380
+advertise-client-urls: http://${MY_IP}:2379
+listen-peer-urls: http://0.0.0.0:2380
+listen-client-urls: http://${MY_IP}:2379
+EOF
+## end of memcached
+
+## etcd
+cat > /lib/systemd/system/etcd.service << EOF
+[Unit]
+After=network.target
+Description=etcd - highly-available key value store
+
+[Service]
+Environment="ETCD_UNSUPPORTED_ARCH=arm64"
+LimitNOFILE=65536
+Restart=on-failure
+Type=notify
+ExecStart=/usr/bin/etcd --config-file /etc/etcd/etcd.conf.yml
+User=etcd
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable etcd
+systemctl start etcd
+## end of etcd
+
+## mysql
 apt -y install mariadb-server python-pymysql
 
-# private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
 cat >> /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
 [mysqld]
@@ -29,7 +70,9 @@ service mysql restart
 
 # harden MySQL
 # mysql_secure_installation
+## end of mysql
 
+## keystone
 mysql --batch -e "\
 CREATE DATABASE keystone; \
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS'; \
@@ -102,6 +145,7 @@ if [ $? -ne 0 ]; then
 else
   echo "successfully issued a keystone token"
 fi
+## end of keystone
 
 
 
