@@ -27,11 +27,6 @@ GATEWAY=`ip route list | egrep "^default" | cut -d' ' -f 3`
 IP=`hostname -I | cut -d' ' -f 1`
 SUBNET=`ip -4 -o addr show dev bond0 | grep $IP | cut -d ' ' -f 7`
 
-* Setup provider network
-* Create public (virtual) network
-* Create internal (virtual) network
-* Setup virtual machines and applications
-
 openstack network create  --share --external \
   --provider-physical-network provider \
   --provider-network-type flat provider
