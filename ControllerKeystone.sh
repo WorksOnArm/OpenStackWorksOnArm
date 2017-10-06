@@ -49,6 +49,27 @@ sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
 service memcached restart
 ## end of memcached
 
+## etcd
+groupadd --system etcd
+useradd --home-dir "/var/lib/etcd" \
+      --system \
+      --shell /bin/false \
+      -g etcd \
+      etcd
+      
+mkdir -p /etc/etcd
+chown etcd:etcd /etc/etcd
+mkdir -p /var/lib/etcd
+chown etcd:etcd /var/lib/etcd
+
+ETCD_VER=v3.2.7
+rm -rf /tmp/etcd && mkdir -p /tmp/etcd
+ARCH=`dpkg --print-architecture`
+curl -L https://github.com/coreos/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz
+tar xzvf /tmp/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz -C /tmp/etcd --strip-components=1
+cp /tmp/etcd/etcd /usr/bin/etcd
+cp /tmp/etcd/etcdctl /usr/bin/etcdctl
+
 cat > /etc/etcd/etcd.conf.yml << EOF
 name: controller
 data-dir: /var/lib/etcd
@@ -60,9 +81,7 @@ advertise-client-urls: http://${MY_IP}:2379
 listen-peer-urls: http://0.0.0.0:2380
 listen-client-urls: http://${MY_IP}:2379
 EOF
-
-
-## etcd
+      
 cat > /lib/systemd/system/etcd.service << EOF
 [Unit]
 After=network.target
