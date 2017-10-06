@@ -15,7 +15,7 @@ OS_DISTRO=ubuntu
 wget $IMG_URL
 tar xfvz ubuntu-16.04-server-cloudimg-arm64.tar.gz xenial-server-cloudimg-arm64.img
 glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --file xenial-server-cloudimg-arm64.img \
-	--property hw_firmware_type=uefi \ 
+	--property hw_firmware_type=uefi \
 	--visibility public --disk-format raw --container-format bare --property os_distro=$OS_DISTRO --progress
 rm xenial-server-cloudimg-arm64.img
 rm ubuntu-16.04-server-cloudimg-arm64.tar.gz
