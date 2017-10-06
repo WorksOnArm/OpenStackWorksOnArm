@@ -1,4 +1,12 @@
 
+
+On all nodes:
+
+curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/OpenStackPrereq.sh | bash
+
+
+
+
 Steps required to install:
 
 * Keystone
