@@ -99,6 +99,9 @@ su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
 
 su -s /bin/sh -c "nova-manage db sync" nova
 
+# automatically add new compute nodes rather than having to manually add
+crudini --set /etc/nova/nova.conf scheduler discover_hosts_in_cells_interval 300
+
 service nova-api restart
 service nova-consoleauth restart
 service nova-scheduler restart
