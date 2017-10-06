@@ -12,15 +12,19 @@
 
 ### Controller
 
+```bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerKeystone.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerGlance.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerNova.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerNeutron.sh | bash
+```
 
 ### Compute
 
+```bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ComputeNova.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ComputeNeutron.sh | bash
+```
 
 ## Configure OpenStack
 
