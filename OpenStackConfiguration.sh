@@ -1,3 +1,4 @@
+. admin-openrc 
 
 # Download ARM images and upload into OpenStack (Glance)
 
@@ -5,8 +6,7 @@ IMG_URL=https://dl.fedoraproject.org/pub/fedora-secondary/releases/26/CloudImage
 IMG_NAME=Fedora-26-arm64
 OS_DISTRO=fedora
 wget -q -O - $IMG_URL | \
-glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME \
-	--property hw_firmware_type=uefi \ 
+glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --property hw_firmware_type=uefi \
 	--visibility public --disk-format raw --container-format bare --property os_distro=$OS_DISTRO --progress
 
 IMG_URL=https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-arm64.tar.gz
