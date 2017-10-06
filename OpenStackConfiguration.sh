@@ -31,9 +31,8 @@ openstack network create  --share --external \
   --provider-physical-network provider \
   --provider-network-type flat provider
 
-# TODO replace IP addresses with public IP addresses provided by Packet
+# use public IP addresses provided by Packet
 openstack subnet create --network provider \
-  --allocation-pool start=10.64.67.10,end=10.64.67.14 \
   --dns-nameserver 8.8.4.4 --gateway $GATEWAY \
   --subnet-range $SUBNET provider
 
