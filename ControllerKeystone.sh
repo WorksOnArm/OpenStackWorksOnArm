@@ -106,8 +106,7 @@ systemctl start etcd
 ## mysql
 apt -y install mariadb-server python-pymysql
 
-
-cat >> /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
+cat > /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
 [mysqld]
 bind-address = ${MY_IP}
 
