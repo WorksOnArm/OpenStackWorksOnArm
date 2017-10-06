@@ -3,7 +3,7 @@
 apt -y install mariadb-server python-pymysql
 
 # private IP addr (10...)
-MY_IP=`hostname -I | cut -d ' ' -f 2`
+MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
 cat >> /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
 [mysqld]
