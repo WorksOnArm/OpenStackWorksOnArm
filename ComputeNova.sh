@@ -5,6 +5,7 @@ ping controller -c 5 -q
 if [ $? -ne 0 ] ; then
   echo "controller is unreachable"
   echo "check /etc/hosts and networking and then restart this script"
+  read -p "press a key"
   exit -1
 fi
 
