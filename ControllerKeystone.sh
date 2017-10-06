@@ -1,5 +1,14 @@
 # Controller Only Below
 
+apt -y install rabbitmq-server
+rabbitmqctl add_user openstack RABBIT_PASS
+rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+
+apt -y install memcached python-memcache
+# set the IP where memchaced is listening
+sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
+service memcached restart
+
 apt -y install mariadb-server python-pymysql
 
 # private IP addr (10...)
