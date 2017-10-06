@@ -37,10 +37,7 @@ apt-get -y install crudini
 # nova
 apt -y install nova-compute
 
-/etc/nova/nova.conf file and complete the following actions:
-
 crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
-
 
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
 
@@ -53,7 +50,6 @@ crudini --set /etc/nova/nova.conf keystone_authtoken user_domain_name default
 crudini --set /etc/nova/nova.conf keystone_authtoken project_name service
 crudini --set /etc/nova/nova.conf keystone_authtoken username nova
 crudini --set /etc/nova/nova.conf keystone_authtoken password NOVA_PASS
-
 
 crudini --set /etc/nova/nova.conf DEFAULT my_ip = ${MY_IP}
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron True
@@ -71,7 +67,6 @@ crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 # Due to a packaging bug, remove the log_dir option from the [DEFAULT] section.
 crudini --del /etc/nova/nova.conf DEFAULT log_dir
 
-
 crudini --set /etc/nova/nova.conf placement os_region_name RegionOne
 crudini --set /etc/nova/nova.conf placement project_domain_name Default
 crudini --set /etc/nova/nova.conf placement project_name service
@@ -83,10 +78,7 @@ crudini --set /etc/nova/nova.conf placement password PLACEMENT_PASS
 
 crudini --set /etc/nova/nova.conf libvirt virt_type kvm
 
-
-
 # CPU Architecture Specific Settings
-
 ARCH=`dpkg --print-architecture`
 
 if [ $ARCH == amd64 ]; then
@@ -106,8 +98,6 @@ elif [ $ARCH == arm64 ]; then
  
   apt -y install qemu-efi
 fi
-
-
 
 service nova-compute restart
 
