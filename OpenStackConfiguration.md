@@ -4,7 +4,8 @@
 IMG_URL=https://dl.fedoraproject.org/pub/fedora-secondary/releases/26/CloudImages/aarch64/images/Fedora-Cloud-Base-26-1.5.aarch64.qcow2
 IMG_NAME=Fedora-26-arm64
 OS_DISTRO=fedora
-glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --location $IMG_URL \
+wget -q -O - $IMG_URL | \
+glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME \
 	--property hw_firmware_type=uefi \ 
 	--visibility public --disk-format raw --container-format bare --property os_distro=$OS_DISTRO --progress
 
@@ -38,8 +39,8 @@ openstack network create  --share --external \
 # TODO replace IP addresses with public IP addresses provided by Packet
 openstack subnet create --network provider \
   --allocation-pool start=10.64.67.10,end=10.64.67.14 \
-  --dns-nameserver 8.8.4.4 --gateway 10.64.67.9 \
-  --subnet-range 10.64.67.8/29 provider
+  --dns-nameserver 8.8.4.4 --gateway $GATEWAY \
+  --subnet-range $SUBNET provider
 
 openstack router create provider-gw
 openstack router set --external-gateway provider provider-gw
