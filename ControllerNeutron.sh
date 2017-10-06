@@ -36,8 +36,8 @@ apt -y install neutron-server neutron-plugin-ml2 \
 crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:NEUTRON_DBPASS@controller/neutron
 
 crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
-crudini --del /etc/neutron/neutron.conf DEFAULT service_plugins router
-crudini --del /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips true
+crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
+crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips true
 
 crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
@@ -65,7 +65,7 @@ crudini --set /etc/neutron/neutron.conf nova username nova
 crudini --set /etc/neutron/neutron.conf nova password NOVA_PASS
 
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers flat,vlan,vxlan
-crudini --del /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
+crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers linuxbridge,l2population
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 extension_drivers port_security
 
