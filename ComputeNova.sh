@@ -11,6 +11,30 @@ fi
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
+# general system updates
+apt-get -y update
+
+# non-interactively set a timezone so we're not interactively prompted
+export DEBIAN_FRONTEND=noninteractive
+apt-get install -y tzdata
+ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+dpkg-reconfigure --frontend noninteractive tzdata
+
+# OpenStack needs precise time services
+apt-get -y install chrony
+service chrony restart
+
+# general OpenStack packages
+apt -y install software-properties-common
+add-apt-repository -y cloud-archive:pike
+apt -y update
+apt -y install python-openstackclient
+
+
+# easy modification of .ini configuration files
+apt-get -y install crudini
+
+# nova
 apt -y install nova-compute
 
 /etc/nova/nova.conf file and complete the following actions:
@@ -84,3 +108,5 @@ fi
 
 
 service nova-compute restart
+
+# end of nova
