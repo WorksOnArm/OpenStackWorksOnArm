@@ -47,6 +47,7 @@ apt -y install memcached python-memcache
 # set the IP where memchaced is listening
 sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
 service memcached restart
+## end of memcached
 
 cat > /etc/etcd/etcd.conf.yml << EOF
 name: controller
@@ -59,7 +60,7 @@ advertise-client-urls: http://${MY_IP}:2379
 listen-peer-urls: http://0.0.0.0:2380
 listen-client-urls: http://${MY_IP}:2379
 EOF
-## end of memcached
+
 
 ## etcd
 cat > /lib/systemd/system/etcd.service << EOF
