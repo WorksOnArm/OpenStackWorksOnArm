@@ -78,7 +78,7 @@ openstack project create --domain default \
   --description "Demo Project" demo
   
 openstack user create --domain default \
-  --password-prompt demo
+  --password DEMO_PASS demo
   
 openstack role create user
 
