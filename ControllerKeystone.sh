@@ -1,6 +1,13 @@
 # Controller Only Below
 
 
+## memcached
+apt-get -y install memcached python-memcache
+# set the IP where memchaced is listening
+sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
+service memcached restart
+## end of memcached
+
 ## mysql
 apt-get -y install mariadb-server python-pymysql
 

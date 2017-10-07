@@ -42,13 +42,6 @@ rabbitmqctl add_user openstack RABBIT_PASS
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ## end of rabbitmq
 
-## memcached
-apt-get -y install memcached python-memcache
-# set the IP where memchaced is listening
-sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
-service memcached restart
-## end of memcached
-
 ## etcd
 groupadd --system etcd
 useradd --home-dir "/var/lib/etcd" \
