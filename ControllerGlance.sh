@@ -1,3 +1,8 @@
+# Controller only below
+
+# private IP addr (10...)
+MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+
 mysql --batch -e "\
 CREATE DATABASE glance; \
 GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'GLANCE_DBPASS'; \

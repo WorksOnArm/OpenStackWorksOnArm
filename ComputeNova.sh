@@ -1,5 +1,8 @@
 # Compute node only below
 
+# private IP addr (10...)
+MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+
 # nova
 apt-get -y install nova-compute
 
