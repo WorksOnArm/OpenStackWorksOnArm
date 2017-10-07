@@ -21,7 +21,7 @@ openstack endpoint create --region RegionOne \
 openstack endpoint create --region RegionOne \
   image admin http://controller:9292
   
-apt -y install glance
+apt-get -y install glance
   
 crudini --set /etc/glance/glance-api.conf database connection mysql+pymysql://glance:GLANCE_DBPASS@controller/glance
 

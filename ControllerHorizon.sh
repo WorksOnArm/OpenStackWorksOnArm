@@ -3,7 +3,7 @@
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
-apt -y install openstack-dashboard
+apt-get -y install openstack-dashboard
 
 /etc/openstack-dashboard/local_settings.py file and complete the following actions:
 

@@ -26,17 +26,17 @@ apt-get -y install chrony
 service chrony restart
 
 # general OpenStack packages
-apt -y install software-properties-common
+apt-get -y install software-properties-common
 add-apt-repository -y cloud-archive:pike
-apt -y update
-apt -y install python-openstackclient
+apt-get -y update
+apt-get -y install python-openstackclient
 
 
 # easy modification of .ini configuration files
 apt-get -y install crudini
 
 # nova
-apt -y install nova-compute
+apt-get -y install nova-compute
 
 crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
 
@@ -97,7 +97,7 @@ elif [ $ARCH == arm64 ]; then
   crudini --set /etc/nova/nova.conf serial_console proxyclient_address ${MY_IP}
   crudini --set /etc/nova/nova.conf serial_console proxyclient_address listen=0.0.0.0 
  
-  apt -y install qemu-efi
+  apt-get -y install qemu-efi
 fi
 
 service nova-compute restart

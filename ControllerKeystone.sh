@@ -26,10 +26,10 @@ dpkg-reconfigure --frontend noninteractive tzdata
 apt-get -y install chrony
 service chrony restart
 
-apt -y install software-properties-common
+apt-get -y install software-properties-common
 add-apt-repository -y cloud-archive:pike
-apt -y update
-apt -y install python-openstackclient
+apt-get -y update
+apt-get -y install python-openstackclient
 
 
 # easy modification of .ini configuration files
@@ -37,13 +37,13 @@ apt-get -y install crudini
 
 
 ## rabbitmq
-apt -y install rabbitmq-server
+apt-get -y install rabbitmq-server
 rabbitmqctl add_user openstack RABBIT_PASS
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 ## end of rabbitmq
 
 ## memcached
-apt -y install memcached python-memcache
+apt-get -y install memcached python-memcache
 # set the IP where memchaced is listening
 sed -i '/^-l.*/c\-l '$MY_IP /etc/memcached.conf
 service memcached restart
@@ -104,7 +104,7 @@ systemctl start etcd
 ## end of etcd
 
 ## mysql
-apt -y install mariadb-server python-pymysql
+apt-get -y install mariadb-server python-pymysql
 
 cat > /etc/mysql/mariadb.conf.d/99-openstack.cnf << EOF
 [mysqld]

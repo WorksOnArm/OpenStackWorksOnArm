@@ -4,7 +4,7 @@
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
-apt -y install neutron-linuxbridge-agent
+apt-get -y install neutron-linuxbridge-agent
 
 crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
