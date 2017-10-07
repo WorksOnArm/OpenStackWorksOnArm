@@ -13,6 +13,7 @@
 ### Controller
 
 ```bash
+curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/CommonServerSetup.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerKeystone.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerGlance.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ControllerNova.sh | bash
@@ -22,6 +23,7 @@ curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/Con
 ### Compute
 
 ```bash
+curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/CommonServerSetup.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ComputeNova.sh | bash
 curl https://raw.githubusercontent.com/WorksOnArm/OpenStackWorksOnArm/master/ComputeNeutron.sh | bash
 ```
