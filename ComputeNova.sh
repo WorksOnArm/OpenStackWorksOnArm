@@ -59,11 +59,10 @@ elif [ $ARCH == arm64 ]; then
   crudini --set /etc/nova/nova.conf spice enabled False 
   crudini --set /etc/nova/nova.conf libvirt virt_type kvm
   crudini --set /etc/nova/nova.conf libvirt cpu_mode host-passthrough
-  
   crudini --set /etc/nova/nova.conf serial_console enabled true
-  crudini --set /etc/nova/nova.conf serial_console base_url ws://controller:6083/
+  crudini --set /etc/nova/nova.conf serial_console base_url 'ws://controller:6083/'
   crudini --set /etc/nova/nova.conf serial_console proxyclient_address ${MY_IP}
-  crudini --set /etc/nova/nova.conf serial_console proxyclient_address listen=0.0.0.0 
+  crudini --set /etc/nova/nova.conf serial_console listen=0.0.0.0 
  
   apt-get -y install qemu-efi
 fi
