@@ -6,6 +6,9 @@ MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 
 apt-get -y install neutron-linuxbridge-agent
 
+# compute server doesn't use a database so remove entire section
+crudini --del /etc/neutron/neutron.conf database
+
 crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 
