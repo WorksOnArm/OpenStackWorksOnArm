@@ -83,9 +83,9 @@ crudini --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 
 crudini --set /etc/nova/nova.conf placement os_region_name RegionOne
 crudini --set /etc/nova/nova.conf placement project_domain_name Default
-crudini --set /etc/nova/nova.conf placementproject_name service
-crudini --set /etc/nova/nova.conf placementauth_type password
-crudini --set /etc/nova/nova.conf placementuser_domain_name Default
+crudini --set /etc/nova/nova.conf placement project_name service
+crudini --set /etc/nova/nova.conf placement auth_type password
+crudini --set /etc/nova/nova.conf placement user_domain_name Default
 crudini --set /etc/nova/nova.conf placement auth_url http://controller:35357/v3
 crudini --set /etc/nova/nova.conf placement username placement
 crudini --set /etc/nova/nova.conf placement password PLACEMENT_PASS
