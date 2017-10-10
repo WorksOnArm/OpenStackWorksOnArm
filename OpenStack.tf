@@ -20,7 +20,7 @@ resource "packet_device" "controller" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo ${packet_device.controller.access_private_ipv4} controller >> /etc/hosts"
+      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts"
     ]
   }
 }
@@ -30,6 +30,14 @@ resource "null_resource" "controller-openstack" {
     host = "${packet_device.controller.access_public_ipv4}"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo ${packet_device.dashboard.access_private_ipv4} ${packet_device.dashboard.hostname} >> /etc/hosts"
+    ]
+  }
+
+
 
   provisioner "file" {
     source      = "CommonServerSetup.sh"
@@ -56,15 +64,15 @@ resource "null_resource" "controller-openstack" {
     destination = "ControllerNeutron.sh"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "bash CommonServerSetup.sh > CommonServerSetup.out",
-      "bash ControllerKeystone.sh > ControllerKeystone.out",
-      "bash ControllerGlance.sh > ControllerGlance.out",
-      "bash ControllerNova.sh > ControllerNova.out",
-      "bash ControllerNeutron.sh > ControllerNeutron.out",
-    ]
-  }
+#  provisioner "remote-exec" {
+#    inline = [
+#      "bash CommonServerSetup.sh > CommonServerSetup.out",
+#      "bash ControllerKeystone.sh > ControllerKeystone.out",
+#      "bash ControllerGlance.sh > ControllerGlance.out",
+#      "bash ControllerNova.sh > ControllerNova.out",
+#      "bash ControllerNeutron.sh > ControllerNeutron.out",
+#    ]
+#  }
 }
 
 resource "packet_device" "dashboard" {
@@ -115,22 +123,52 @@ resource "null_resource" "dashboard-openstack" {
   provisioner "remote-exec" {
     inline = [
       "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
-      "echo ${packet_device.dashboard.access_private_ipv4} ${packet_device.dashboard.hostname} >> /etc/hosts",
     ]
+  }
+
+#  provisioner "remote-exec" {
+#    inline = [
+#      "bash CommonServerSetup.sh > CommonServerSetup.out",
+#    ]
+#  }
+}
+
+# save the dashboard IP in the controller host file
+resource "null_resource" "dashboard-controller-hostname" {
+  connection {
+    host = "${packet_device.controller.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "echo ${packet_device.dashboard.access_private_ipv4} ${packet_device.dashboard.hostname} >> /etc/hosts",
     ]
   }
 }
+
+# save the compute IP in the controller host file
+resource "null_resource" "compute-controller-hostname" {
+  connection {
+    host = "${packet_device.controller.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
+  }
+
+  count = "${var.openstack_compute_count}"
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo ${element(packet_device.compute.*.access_private_ipv4, count.index)} ${element(packet_device.compute.*.hostname, count.index)} >> /etc/hosts",
+    ]
+  }
+}
+
 
 resource "null_resource" "compute-openstack" {
   count = "${var.openstack_compute_count}"
 
   connection {
-    host = "${packet_device.compute.*.access_public_ipv4}"
+    host = "${element(packet_device.compute.*.access_public_ipv4, count.index)}"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
 
@@ -152,15 +190,15 @@ resource "null_resource" "compute-openstack" {
   provisioner "remote-exec" {
     inline = [
       "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
-      "echo ${packet_device.compute.*.access_private_ipv4} ${packet_device.compute.*.hostname} >> /etc/hosts",
+      "echo ${element(packet_device.compute.*.access_private_ipv4, count.index)} ${element(packet_device.compute.*.hostname, count.index)} >> /etc/hosts",
     ]
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "bash CommonServerSetup.sh > CommonServerSetup.out",
-      "bash ComputeNova.sh > ComputeNova.out",
-      "bash ComputeNeutron.sh > ComputeNeutron.out",
-    ]
-  }
+#  provisioner "remote-exec" {
+#    inline = [
+#      "bash CommonServerSetup.sh > CommonServerSetup.out",
+#      "bash ComputeNova.sh > ComputeNova.out",
+#      "bash ComputeNeutron.sh > ComputeNeutron.out",
+#    ]
+#  }
 }

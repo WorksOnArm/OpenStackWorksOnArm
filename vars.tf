@@ -29,7 +29,7 @@ variable "packet_compute_type" {
 
 variable "openstack_compute_count" {
   description = "Number of OpenStack Compute nodes to deploy"
-  default = "1"
+  default = "2"
 }
 
 variable "cloud_ssh_public_key_path" {
