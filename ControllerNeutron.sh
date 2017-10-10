@@ -13,7 +13,14 @@ GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
   IDENTIFIED BY 'NEUTRON_DBPASS'; \
 FLUSH PRIVILEGES;"
 
-. admin-openrc
+# replaces sourcing admin-openrc
+export OS_USERNAME=admin
+export OS_PASSWORD=ADMIN_PASS
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://controller:35357/v3
+export OS_IDENTITY_API_VERSION=3
 
 openstack user create --domain default --password NEUTRON_PASS neutron
 openstack role add --project service --user neutron admin

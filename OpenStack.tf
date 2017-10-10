@@ -11,16 +11,22 @@ resource "packet_device" "controller" {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
-  user_data     = "#cloud-config\n\nmanage_etc_hosts: \"localhost\"\nssh_authorized_keys:\n  - \"${file("${var.cloud_ssh_public_key_path}")}\"\n"
+  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${file("${var.cloud_ssh_public_key_path}")}\""
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
 
   public_ipv4_subnet_size  = "29"
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo ${packet_device.controller.access_private_ipv4} controller >> /etc/hosts"
+    ]
+  }
 }
 
 # split this out so that the dashboard and compute nodes can provision concurrently
-resource "null_resource" "controller" {
+resource "null_resource" "controller-openstack" {
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -53,11 +59,11 @@ resource "null_resource" "controller" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash CommonServerSetup.sh",
-      "bash ControllerKeystone.sh",
-      "bash ControllerGlance.sh",
-      "bash ControllerNova.sh",
-      "bash ControllerNeutron.sh",
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ControllerKeystone.sh > ControllerKeystone.out",
+      "bash ControllerGlance.sh > ControllerGlance.out",
+      "bash ControllerNova.sh > ControllerNova.out",
+      "bash ControllerNeutron.sh > ControllerNeutron.out",
     ]
   }
 }
@@ -71,23 +77,11 @@ resource "packet_device" "dashboard" {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
-  user_data     = "#cloud-config\n\nmanage_etc_hosts: \"localhost\"\nssh_authorized_keys:\n  - \"${file("${var.cloud_ssh_public_key_path}")}\"\nbootcmd:\n - echo ${packet_device.controller.access_private_ipv4} controller >> /etc/hosts\n"
+  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${file("${var.cloud_ssh_public_key_path}")}\""
+
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
-
-  public_ipv4_subnet_size  = "29"
-
-  provisioner "file" {
-    source      = "CommonServerSetup.sh"
-    destination = "CommonServerSetup.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "bash CommonServerSetup.sh",
-    ]
-  }
 }
 
 resource "packet_device" "compute" {
@@ -101,10 +95,45 @@ resource "packet_device" "compute" {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
-  user_data     = "#cloud-config\n\nmanage_etc_hosts: \"localhost\"\nssh_authorized_keys:\n  - \"${file("${var.cloud_ssh_public_key_path}")}\"\nbootcmd:\n - echo ${packet_device.controller.access_private_ipv4} controller >> /etc/hosts\n"
+  user_data     = "#cloud-config\n\nssh_authorized_keys:\n  - \"${file("${var.cloud_ssh_public_key_path}")}\""
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
+}
+
+resource "null_resource" "dashboard-openstack" {
+
+  connection {
+    host = "${packet_device.dashboard.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
+  }
+
+  provisioner "file" {
+    source      = "CommonServerSetup.sh"
+    destination = "CommonServerSetup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
+      "echo ${packet_device.dashboard.access_private_ipv4} ${packet_device.dashboard.hostname} >> /etc/hosts",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+    ]
+  }
+}
+
+resource "null_resource" "compute-openstack" {
+  count = "${var.openstack_compute_count}"
+
+  connection {
+    host = "${packet_device.compute.*.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
+  }
 
   provisioner "file" {
     source      = "CommonServerSetup.sh"
@@ -123,9 +152,16 @@ resource "packet_device" "compute" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash CommonServerSetup.sh",
-      "bash ComputeNova.sh",
-      "bash ComputeNeutron.sh",
+      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
+      "echo ${packet_device.compute.*.access_private_ipv4} ${packet_device.compute.*.hostname} >> /etc/hosts",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ComputeNova.sh > ComputeNova.out",
+      "bash ComputeNeutron.sh > ComputeNeutron.out",
     ]
   }
 }
