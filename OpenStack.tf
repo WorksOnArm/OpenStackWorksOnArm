@@ -56,15 +56,15 @@ resource "null_resource" "controller-openstack" {
     destination = "ControllerNeutron.sh"
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash CommonServerSetup.sh > CommonServerSetup.out",
-#      "bash ControllerKeystone.sh > ControllerKeystone.out",
-#      "bash ControllerGlance.sh > ControllerGlance.out",
-#      "bash ControllerNova.sh > ControllerNova.out",
-#      "bash ControllerNeutron.sh > ControllerNeutron.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ControllerKeystone.sh > ControllerKeystone.out",
+      "bash ControllerGlance.sh > ControllerGlance.out",
+      "bash ControllerNova.sh > ControllerNova.out",
+      "bash ControllerNeutron.sh > ControllerNeutron.out",
+    ]
+  }
 }
 
 resource "packet_device" "dashboard" {
@@ -118,11 +118,11 @@ resource "null_resource" "dashboard-openstack" {
     ]
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash CommonServerSetup.sh > CommonServerSetup.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+    ]
+  }
 }
 
 # save the dashboard IP in the controller host file
@@ -186,11 +186,11 @@ resource "null_resource" "compute-openstack" {
     ]
   }
 
-#  provisioner "remote-exec" {
-#    inline = [
-#      "bash CommonServerSetup.sh > CommonServerSetup.out",
-#      "bash ComputeNova.sh > ComputeNova.out",
-#      "bash ComputeNeutron.sh > ComputeNeutron.out",
-#    ]
-#  }
+  provisioner "remote-exec" {
+    inline = [
+      "bash CommonServerSetup.sh > CommonServerSetup.out",
+      "bash ComputeNova.sh > ComputeNova.out",
+      "bash ComputeNeutron.sh > ComputeNeutron.out",
+    ]
+  }
 }
