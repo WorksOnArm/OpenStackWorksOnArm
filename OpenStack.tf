@@ -25,7 +25,6 @@ resource "packet_device" "controller" {
   }
 }
 
-# split this out so that the dashboard and compute nodes can provision concurrently
 resource "null_resource" "controller-openstack" {
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
