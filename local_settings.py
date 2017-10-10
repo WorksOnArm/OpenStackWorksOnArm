@@ -71,7 +71,7 @@ OPENSTACK_API_VERSIONS = {
 # Set this to True if running on a multi-domain model. When this is enabled, it
 # will require the user to enter the Domain name in addition to the username
 # for login.
-#OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
 
 # Set this to True if you want available domains displayed as a dropdown menu
 # on the login screen. It is strongly advised NOT to enable this for public
