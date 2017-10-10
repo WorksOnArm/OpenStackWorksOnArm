@@ -19,7 +19,8 @@ resource "packet_device" "controller" {
   public_ipv4_subnet_size  = "29"
 }
 
-# split this out so that the dashboard and compute nodes can provision concurrently
+# split this out so that the dashboard and compute node hardware
+# can provision concurrently with the controller software install
 resource "null_resource" "controller" {
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
