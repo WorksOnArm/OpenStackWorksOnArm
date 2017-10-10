@@ -123,6 +123,25 @@ resource "null_resource" "dashboard-openstack" {
       "bash CommonServerSetup.sh > CommonServerSetup.out",
     ]
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "apt-get -y install openstack-dashboard",
+    ]
+  }
+
+  provisioner "file" {
+    source      = "local_settings.py"
+    destination = "/etc/openstack-dashboard/local_settings.py"
+  }
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "service apache2 reload"
+    ]
+  }
+
 }
 
 # save the dashboard IP in the controller host file
