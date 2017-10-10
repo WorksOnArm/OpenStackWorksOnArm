@@ -31,14 +31,6 @@ resource "null_resource" "controller-openstack" {
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${packet_device.dashboard.access_private_ipv4} ${packet_device.dashboard.hostname} >> /etc/hosts"
-    ]
-  }
-
-
-
   provisioner "file" {
     source      = "CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
