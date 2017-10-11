@@ -83,6 +83,7 @@ crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.Noo
 crudini --set /etc/nova/nova.conf vnc enabled true
 crudini --set /etc/nova/nova.conf vnc vncserver_listen ${MY_IP}
 crudini --set /etc/nova/nova.conf vnc vncserver_proxyclient_address ${MY_IP}
+crudini --set /etc/nova/nova.conf vnc novncproxy_base_url http://${MY_IP}:6080/vnc_auto.html
 
 crudini --set /etc/nova/nova.conf glance api_servers http://controller:9292
 
