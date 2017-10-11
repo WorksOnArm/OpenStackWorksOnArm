@@ -8,7 +8,7 @@ variable "packet_project_id" {
 }
 
 variable "packet_facility" {
-  description = "Packet facility: US East(ewr1), US West(sjc1), or EU(ams1). Default: sjc1"
+  description = "Packet facility: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: sjc1"
   default = "sjc1"
 }
 
@@ -29,6 +29,16 @@ variable "packet_compute_type" {
 
 variable "openstack_compute_count" {
   description = "Number of OpenStack Compute nodes to deploy"
+  default = "2"
+}
+
+variable "packet_compute_arm_type" {
+  description = "Instance type of OpenStack ARM compute"
+  default = "baremetal_2a"
+}
+
+variable "openstack_compute_arm_count" {
+  description = "Number of OpenStack Compute ARM nodes to deploy"
   default = "2"
 }
 
