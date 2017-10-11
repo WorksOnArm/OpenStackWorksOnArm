@@ -22,23 +22,23 @@ variable "packet_dashboard_type" {
   default = "baremetal_0"
 }
 
-variable "packet_compute_type" {
-  description = "Instance type of OpenStack compute"
+variable "packet_compute-x86_type" {
+  description = "Instance type of OpenStack x86 compute nodes"
   default = "baremetal_0"
 }
 
-variable "openstack_compute_count" {
-  description = "Number of OpenStack Compute nodes to deploy"
+variable "openstack_compute-x86_count" {
+  description = "Number of OpenStack x86 compute nodes to deploy"
   default = "2"
 }
 
-variable "packet_compute_arm_type" {
-  description = "Instance type of OpenStack ARM compute"
+variable "packet_compute-arm_type" {
+  description = "Instance type of OpenStack ARM compute nodes"
   default = "baremetal_2a"
 }
 
-variable "openstack_compute_arm_count" {
-  description = "Number of OpenStack Compute ARM nodes to deploy"
+variable "openstack_compute-arm_count" {
+  description = "Number of OpenStack ARM compute nodes to deploy"
   default = "2"
 }
 

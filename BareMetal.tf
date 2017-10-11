@@ -41,13 +41,13 @@ resource "packet_device" "dashboard" {
   billing_cycle = "hourly"
 }
 
-resource "packet_device" "compute" {
-  hostname = "${format("compute-%02d", count.index)}"
+resource "packet_device" "compute-x86" {
+  hostname = "${format("compute-x86-%02d", count.index)}"
 
-  count = "${var.openstack_compute_count}"
+  count = "${var.openstack_compute-x86_count}"
 
   operating_system = "ubuntu_16_04"
-  plan             = "${var.packet_compute_type}"
+  plan             = "${var.packet_compute-x86_type}"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -61,10 +61,10 @@ resource "packet_device" "compute" {
 resource "packet_device" "compute-arm" {
   hostname = "${format("compute-arm-%02d", count.index)}"
 
-  count = "${var.openstack_compute_arm_count}"
+  count = "${var.openstack_compute-arm_count}"
 
   operating_system = "ubuntu_16_04"
-  plan             = "${var.packet_compute_arm_type}"
+  plan             = "${var.packet_compute-arm_type}"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
