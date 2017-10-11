@@ -1,5 +1,5 @@
 provider "packet" {
-  auth_token = "${var.packet_api_key}"
+  auth_token = "${var.packet_auth_token}"
 }
 
 resource "packet_device" "controller" {
