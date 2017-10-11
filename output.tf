@@ -1,5 +1,5 @@
 output "Horizon dashboard available at" {
-  value = "http://${packet_device.dashboard.access_public_ipv4}/horizon/"
+  value = "http://${packet_device.dashboard.access_public_ipv4}/horizon/ admin/ADMIN_PASS"
 }
 
 output "Controller SSH" {
