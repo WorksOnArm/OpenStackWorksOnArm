@@ -33,8 +33,7 @@ resource "packet_device" "dashboard" {
   hostname = "dashboard"
 
   operating_system = "ubuntu_16_04"
-  #plan             = "${var.packet_dashboard_type}"
-  plan             = "T2A2"
+  plan             = "${var.packet_dashboard_type}"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -45,8 +44,6 @@ resource "packet_device" "dashboard" {
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
 
-  # T2A2 EWR
-  hardware_reservation_id = "0a38d06b-e064-4fcb-a432-1546b1e42c55"
 }
 
 resource "packet_device" "compute-x86" {
@@ -81,5 +78,8 @@ resource "packet_device" "compute-arm" {
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
+
+  # T2A2 EWR
+  hardware_reservation_id = "0a38d06b-e064-4fcb-a432-1546b1e42c55"
 }
 
