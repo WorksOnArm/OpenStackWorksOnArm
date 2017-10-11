@@ -6,7 +6,8 @@ resource "packet_device" "controller" {
   hostname = "controller"
 
   operating_system = "ubuntu_16_04"
-  plan             = "${var.packet_controller_type}"
+  #plan             = "${var.packet_controller_type}"
+  plan             = "T2A2"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -23,6 +24,9 @@ resource "packet_device" "controller" {
       "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts"
     ]
   }
+
+  # T2A2 EWR
+  hardware_reservation_id = "711399eb-ff6e-4691-89bc-6fca63564b1b"
 }
 
 resource "packet_device" "dashboard" {
@@ -39,6 +43,7 @@ resource "packet_device" "dashboard" {
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
+
 }
 
 resource "packet_device" "compute-x86" {
@@ -73,5 +78,8 @@ resource "packet_device" "compute-arm" {
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
+
+  # T2A2 EWR
+  hardware_reservation_id = "0a38d06b-e064-4fcb-a432-1546b1e42c55"
 }
 
