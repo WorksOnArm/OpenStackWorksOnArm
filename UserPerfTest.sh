@@ -35,5 +35,6 @@ do
 
 done
 
+echo "Test name: " $0
 echo "Total execs: " $((out_max*concurrent_connections))
 echo "Total errors: " $errors
