@@ -1,5 +1,5 @@
 
-resource "null_resource" "controller-keystone" {
+resource "null_resource" "controller-openstack" {
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -21,16 +21,6 @@ resource "null_resource" "controller-keystone" {
       "bash ControllerKeystone.sh > ControllerKeystone.out",
     ]
   }
-}
-
-resource "null_resource" "controller-glance" {
-
-  depends_on = ["null_resource.controller-keystone"]
-
-  connection {
-    host = "${packet_device.controller.access_public_ipv4}"
-    private_key = "${file("${var.cloud_ssh_key_path}")}"
-  }
 
   provisioner "file" {
     source      = "ControllerGlance.sh"
@@ -41,17 +31,6 @@ resource "null_resource" "controller-glance" {
     inline = [
       "bash ControllerGlance.sh > ControllerGlance.out",
     ]
-  }
-}
-
-resource "null_resource" "controller-nova" {
-
-  depends_on = ["null_resource.controller-keystone"]
-  depends_on = ["null_resource.controller-glance"]
-
-  connection {
-    host = "${packet_device.controller.access_public_ipv4}"
-    private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
 
   provisioner "file" {
