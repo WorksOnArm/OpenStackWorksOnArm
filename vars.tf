@@ -8,13 +8,13 @@ variable "packet_project_id" {
 }
 
 variable "packet_facility" {
-  description = "Packet facility: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: sjc1"
-  default = "sjc1"
+  description = "Packet facility: US East(ewr1), US West(sjc1), Tokyo (nrt1) or EU(ams1). Default: ewr1"
+  default = "ewr1"
 }
 
 variable "packet_controller_type" {
   description = "Instance type of OpenStack controller"
-  default = "baremetal_0"
+  default = "baremetal_2a5"
 }
 
 variable "packet_dashboard_type" {
@@ -34,7 +34,7 @@ variable "openstack_compute-x86_count" {
 
 variable "packet_compute-arm_type" {
   description = "Instance type of OpenStack ARM compute nodes"
-  default = "baremetal_2a"
+  default = "baremetal_2a5"
 }
 
 variable "openstack_compute-arm_count" {

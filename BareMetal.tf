@@ -6,7 +6,7 @@ resource "packet_device" "controller" {
   hostname = "controller"
 
   operating_system = "ubuntu_16_04"
-  plan             = "${var.packet_controller_type}"
+  plan             = "baremetal_2a5"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -23,6 +23,9 @@ resource "packet_device" "controller" {
       "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts"
     ]
   }
+
+  # T2A5 EWR
+  hardware_reservation_id = "418c2028-cf48-4e8b-9fdf-e0722ee67cda"
 }
 
 resource "packet_device" "dashboard" {
@@ -64,7 +67,7 @@ resource "packet_device" "compute-arm" {
   count = "${var.openstack_compute-arm_count}"
 
   operating_system = "ubuntu_16_04"
-  plan             = "${var.packet_compute-arm_type}"
+  plan             = "baremetal_2a5"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -73,5 +76,8 @@ resource "packet_device" "compute-arm" {
   facility      = "${var.packet_facility}"
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
+
+  # T2A5 EWR
+  hardware_reservation_id = "e76c385f-283d-4af2-b64a-562cff3a1c87"
 }
 
