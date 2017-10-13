@@ -5,7 +5,7 @@
 
 resource "null_resource" "openstack-images" {
 
-  depends_on = ["null_resource.controller-glance"]
+  depends_on = ["null_resource.controller-openstack"]
 
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
@@ -26,7 +26,7 @@ resource "null_resource" "openstack-images" {
 
 resource "null_resource" "openstack-flavors" {
 
-  depends_on = ["null_resource.controller-nova"]
+  depends_on = ["null_resource.controller-openstack"]
 
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
