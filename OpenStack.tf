@@ -1,4 +1,8 @@
 
+resource "random_id" "cloud" {
+  byte_length = 4
+}
+
 resource "null_resource" "controller-openstack" {
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
