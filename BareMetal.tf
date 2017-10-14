@@ -4,6 +4,7 @@ provider "packet" {
 
 resource "packet_device" "controller" {
   hostname = "controller"
+  tags     = ["openstack-${random_id.cloud.hex}"]
 
   operating_system = "ubuntu_16_04"
   plan             = "${var.packet_controller_type}"
@@ -16,6 +17,7 @@ resource "packet_device" "controller" {
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
 
+
   public_ipv4_subnet_size  = "29"
 
   provisioner "remote-exec" {
@@ -27,6 +29,7 @@ resource "packet_device" "controller" {
 
 resource "packet_device" "dashboard" {
   hostname = "dashboard"
+  tags     = ["openstack-${random_id.cloud.hex} "]
 
   operating_system = "ubuntu_16_04"
   plan             = "${var.packet_dashboard_type}"
@@ -43,6 +46,7 @@ resource "packet_device" "dashboard" {
 
 resource "packet_device" "compute-x86" {
   hostname = "${format("compute-x86-%02d", count.index)}"
+  tags     = ["openstack-${random_id.cloud.hex} "]
 
   count = "${var.openstack_compute-x86_count}"
 
@@ -60,6 +64,7 @@ resource "packet_device" "compute-x86" {
 
 resource "packet_device" "compute-arm" {
   hostname = "${format("compute-arm-%02d", count.index)}"
+  tags     = ["openstack-${random_id.cloud.hex} "]
 
   count = "${var.openstack_compute-arm_count}"
 

@@ -1,3 +1,7 @@
+output "Cloud ID Tag" {
+  value = "${random_id.cloud.hex}"
+}
+
 output "Controller Type" {
   value = "${packet_device.controller.plan}"
 }
