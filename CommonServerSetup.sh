@@ -3,10 +3,8 @@
 # sanity check - make sure we can reach the controller
 ping controller -c 5 -q
 if [ $? -ne 0 ] ; then
-  echo "controller is unreachable"
-  echo "check /etc/hosts and networking and then restart this script"
-  read -p "press a key"
-  exit -1
+  echo "controller is unreachable via ping"
+  echo "check /etc/hosts and networking"
 fi
 
 # private IP addr (10...)
