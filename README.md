@@ -67,12 +67,13 @@ cp sample.terraform.tfvars terraform.tfvars
 If the Packet API Token and Project ID were not saved as environment variables then they'll need to be stored in the terraform.tfvars.
 
 The default cloud consists of:
-| Name        | Bare Metal Type | Default Type   | Default Count  | Purpose        |
-| ----------- | --------------- |--------------- |--------------- |--------------- |
-| Controller  |
-| Dashboard   |
-| Compute ARM |
-| Compute x86 |
+
+| Name        | Bare Metal Type | Software               | Default Count | Count 
+| ----------- | --------------- |----------------------- |---------------------
+| Controller  | baremetal_2a    | Keystone, Glance, Nova | 1             | 1
+| Dashboard   | baremetal_2a    | Horizon                | 1             | 0 or more
+| Compute ARM | baremetal_2a    | Neutron, Nova          | 1             | 0 or more
+| Compute x86 | baremetal_0     | Neutron                | 1             | 0 or more
 
 
 In terraform.tfvars, the type of all these nodes can be changed. The size of the cloud can also be grown by increasing the count of ARM and x86 compute nodes by increasing above the default count of 1. 
