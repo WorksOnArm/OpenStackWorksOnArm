@@ -14,3 +14,4 @@ OS_DISTRO=fedora
 wget -q -O - $IMG_URL | \
 glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --property hw_firmware_type=uefi \
 	--visibility public --disk-format raw --container-format bare --property os_distro=$OS_DISTRO --progress
+
