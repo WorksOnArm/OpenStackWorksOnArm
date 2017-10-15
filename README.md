@@ -66,17 +66,18 @@ cp sample.terraform.tfvars terraform.tfvars
 
 If the Packet API Token and Project ID were not saved as environment variables then they'll need to be stored in the terraform.tfvars.
 
-The default cloud consists of:
-
-| Name        | Bare Metal Type | Software               | Default Count | Count 
-| ----------- | --------------- |----------------------- |---------------------
-| Controller  | baremetal_2a    | Keystone, Glance, Nova | 1             | 1
-| Dashboard   | baremetal_2a    | Horizon                | 1             | 0 or more
-| Compute ARM | baremetal_2a    | Neutron, Nova          | 1             | 0 or more
-| Compute x86 | baremetal_0     | Neutron                | 1             | 0 or more
+### Cloud Sizing Defaults
 
 
-In terraform.tfvars, the type of all these nodes can be changed. The size of the cloud can also be grown by increasing the count of ARM and x86 compute nodes by increasing above the default count of 1. 
+| Name        | Bare Metal Type | Software               | Default Count | Minimum Count | 
+| :---------- | :-------------- | :----------------------| -------------:| -------------:|
+| Controller  | baremetal_2a    | Keystone, Glance, Nova | 1             | 1             |
+| Dashboard   | baremetal_2a    | Horizon                | 1             | 0 or more     |
+| Compute ARM | baremetal_2a    | Neutron, Nova          | 1             | 0 or more     |
+| Compute x86 | baremetal_0     | Neutron                | 1             | 0 or more     |
+
+
+In terraform.tfvars, the type of all these nodes can be changed. The size of the cloud can also be grown by increasing the count of ARM and x86 compute nodes above the default count of 1. A count of 0 of any compute node type (ARM or x86) will render the cloud unable to provision virtual machines of said type. While this deployment will cluster and support multiple compute nodes, it does not support multiple controller or dashboard nodes.
 
 ## Deployment
 
