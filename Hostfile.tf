@@ -136,7 +136,7 @@ resource "null_resource" "compute-arm-write-hostfile" {
   count = "${var.openstack_compute-arm_count}"
 
   connection {
-    host = "${element(packet_device.compute-x86.*.access_public_ipv4, count.index)}"
+    host = "${element(packet_device.compute-arm.*.access_public_ipv4, count.index)}"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
   }
 
