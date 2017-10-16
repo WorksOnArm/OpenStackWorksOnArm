@@ -26,8 +26,6 @@ resource "packet_device" "controller" {
     ]
   }
 
-  # T2A5 EWR
-  hardware_reservation_id = "418c2028-cf48-4e8b-9fdf-e0722ee67cda"
 }
 
 resource "packet_device" "dashboard" {
@@ -82,7 +80,5 @@ resource "packet_device" "compute-arm" {
   project_id    = "${var.packet_project_id}"
   billing_cycle = "hourly"
 
-  # T2A5 EWR
-  hardware_reservation_id = "e76c385f-283d-4af2-b64a-562cff3a1c87"
 }
 
