@@ -185,7 +185,7 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 
 * Validate that all the virtual machines are running
 * Horizon: Admin->Compute->Instances
-
+```
 root@controller:~# openstack server list
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 | ID                                   | Name         | Status | Networks                                      | Image           | Flavor   |
@@ -195,6 +195,7 @@ root@controller:~# openstack server list
 | fde4add6-391f-4597-8cf5-0f151f732203 | centos-x86   | ACTIVE | sample-workload=192.168.100.5, 192.168.100.15 | CentOS-7-x86_64 | m1.small |
 | 9288f3f3-dd10-4cd5-8bd3-ec0fe1ac3025 | cirros-x86   | ACTIVE | sample-workload=192.168.100.8, 192.168.100.12 | cirros-x86_64   | m1.small |
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
+```
 
 
 
