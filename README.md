@@ -117,15 +117,86 @@ This deployment includes the following additional items in addition atop of the 
 
 
 ## Validation
-OpenStack Verification via Horizon
+The deploy can be verified via the OpenStack CLI and/or via the OpenStack GUI (Horizon). The CLI commands can be run on the Contoller node (via SSH). The GUI commands are run on a web browser using the URL and credentials output by Terraform. The individual CLI commands and GUI drill down paths are listed below.
 
-### TODO
+When running the CLI, the OpenStack credentials need to be setup by reading in the openrc file.
+
+* Setup the OpenStack credentials
+```bash
+source admin-openrc
+```
+
+* Validate that all the OpenStack compute services are running. There will be one nova-compute per bare metal compute node provisioned (ARM or x86).
+* Horizon: Admin->System Information->Compute Services
+```
+root@controller:~# openstack compute service list
++----+------------------+----------------+----------+---------+-------+----------------------------+
+| ID | Binary           | Host           | Zone     | Status  | State | Updated At                 |
++----+------------------+----------------+----------+---------+-------+----------------------------+
+|  1 | nova-consoleauth | controller     | internal | enabled | up    | 2017-10-16T20:08:45.000000 |
+|  2 | nova-scheduler   | controller     | internal | enabled | up    | 2017-10-16T20:08:46.000000 |
+|  3 | nova-conductor   | controller     | internal | enabled | up    | 2017-10-16T20:08:47.000000 |
+|  6 | nova-compute     | compute-x86-00 | nova     | enabled | up    | 2017-10-16T20:08:42.000000 |
+|  7 | nova-compute     | compute-arm-00 | nova     | enabled | up    | 2017-10-16T20:08:50.000000 |
++----+------------------+----------------+----------+---------+-------+----------------------------+
+```
+
+* Validate that all the images have been installed
+* Horizon: Admin->Compute->Images
+```
+root@controller:~# openstack image list
++--------------------------------------+-----------------+--------+
+| ID                                   | Name            | Status |
++--------------------------------------+-----------------+--------+
+| d7252321-01ff-4e2d-bff3-746bf3f3cfe6 | CentOS-7-x86_64 | active |
+| fd6f2190-b6f0-433d-b36f-8f20389d83ff | Fedora-26-arm64 | active |
+| 4baf4977-98c3-4261-8240-2d57d83d5b1c | cirros-x86_64   | active |
+| b16d5474-da5f-449b-ab20-5ad4dfdf6bf6 | xenial-arm64    | active |
++--------------------------------------+-----------------+--------+
+```
+
+* Validate that all the ARM compute node has the appropriate number of vCPUs and memory
+* Horizon: Admin->Compute->Hypervisors
+```
+root@controller:~# openstack hypervisor show compute-arm-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
++--------------+----------------+
+| Field        | Value          |
++--------------+----------------+
+| memory_mb    | 128873         |
+| running_vms  | 2              |
+| service_host | compute-arm-00 |
+| vcpus        | 96             |
++--------------+----------------+
+```
 
 
-OpenStack Verification via CLI
+* Validate that all the x86 compute node has the appropriate number of vCPUs and memory
+```
+root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
++--------------+----------------+
+| Field        | Value          |
++--------------+----------------+
+| memory_mb    | 7968           |
+| running_vms  | 2              |
+| service_host | compute-x86-00 |
+| vcpus        | 4              |
++--------------+----------------+
+```
+
+* Validate that all the virtual machines are running
+* Horizon: Admin->Compute->Instances
+
+root@controller:~# openstack server list
++--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
+| ID                                   | Name         | Status | Networks                                      | Image           | Flavor   |
++--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
+| 161c63bc-7a15-4f1a-bed9-727c371ed8ae | fedora-arm64 | ACTIVE | sample-workload=192.168.100.13                | Fedora-26-arm64 | m1.small |
+| d5ad6fe5-317c-4e81-ad33-48070970a810 | xenial-arm64 | ACTIVE | sample-workload=192.168.100.11                | xenial-arm64    | m1.small |
+| fde4add6-391f-4597-8cf5-0f151f732203 | centos-x86   | ACTIVE | sample-workload=192.168.100.5, 192.168.100.15 | CentOS-7-x86_64 | m1.small |
+| 9288f3f3-dd10-4cd5-8bd3-ec0fe1ac3025 | cirros-x86   | ACTIVE | sample-workload=192.168.100.8, 192.168.100.12 | cirros-x86_64   | m1.small |
++--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 
 
-### TODO
 
 
 
