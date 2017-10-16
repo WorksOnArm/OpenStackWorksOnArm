@@ -117,14 +117,9 @@ This deployment includes the following additional items in addition atop of the 
 
 
 ## Validation
-OpenStack Verification via Horizon
+The deploy can be verified via the OpenStack CLI and/or via the OpenStack GUI (Horizon). The CLI commands can be run on the Contoller node (via SSH). The GUI commands are run on a web browser using the URL and credentials output by Terraform.
 
-### TODO
-
-
-### CLI Validation
-
-These following commands are run on the Controller node and verify that the system is setup as expected.
+When running the CLI, the OpenStack credentials need to be setup by reading in the openrc file.
 
 * Setup the OpenStack credentials
 ```bash
@@ -132,6 +127,7 @@ source admin-openrc
 ```
 
 * Validate that all the OpenStack compute services are running. There will be one nova-compute per bare metal compute node provisioned (ARM or x86).
+** Horizon: Admin->System Information->Compute Services
 ```
 root@controller:~# openstack compute service list
 +----+------------------+----------------+----------+---------+-------+----------------------------+
@@ -146,6 +142,7 @@ root@controller:~# openstack compute service list
 ```
 
 * Validate that all the images have been installed
+** Horizon: Admin->Compute->Images
 ```
 root@controller:~# openstack image list
 +--------------------------------------+-----------------+--------+
@@ -159,6 +156,7 @@ root@controller:~# openstack image list
 ```
 
 * Validate that all the ARM compute node has the appropriate number of vCPUs and memory
+** Horizon: Admin->Compute->Hypervisors
 ```
 root@controller:~# openstack hypervisor show compute-arm-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
 +--------------+----------------+
@@ -186,6 +184,8 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 ```
 
 * Validate that all the virtual machines are running
+** Horizon: Admin->Compute->Instances
+
 root@controller:~# openstack server list
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 | ID                                   | Name         | Status | Networks                                      | Image           | Flavor   |
@@ -197,10 +197,6 @@ root@controller:~# openstack server list
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 
 
-
-
-
-### TODO
 
 
 
