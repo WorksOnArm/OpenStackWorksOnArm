@@ -11,7 +11,7 @@ export OS_IDENTITY_API_VERSION=3
 IMG_URL=https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-arm64.tar.gz
 IMG_NAME=xenial-arm64
 OS_DISTRO=ubuntu
-wget $IMG_URL
+wget --quiet $IMG_URL
 tar xfvz ubuntu-16.04-server-cloudimg-arm64.tar.gz xenial-server-cloudimg-arm64.img
 glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --file xenial-server-cloudimg-arm64.img \
 	--property hw_firmware_type=uefi \
