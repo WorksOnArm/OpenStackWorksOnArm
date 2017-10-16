@@ -1,16 +1,18 @@
 
-#packet_api_key = ""
-
+#packet_auth_token 
 #packet_project_id = ""
 
-packet_facility = "sjc1"
+#packet_facility = "sjc1"
 
-packet_agent_type = "baremetal_0"
+#packet_controller_type =
+ 
+#packet_dashboard_type = 
 
-packet_master_type = "baremetal_0"
+#packet_compute-x86_type =
+#openstack_compute-x86_count =
 
-packet_boot_type = "baremetal_0"
+#packet_compute-arm_type =
+#openstack_compute-arm_count =
 
-cloud_ssh_key_path = "./packet-key"
-
-cloud_ssh_public_key_path = "packet-key.pub"
+#cloud_ssh_key_path = "./packet-key"
+#cloud_ssh_public_key_path = "packet-key.pub"
