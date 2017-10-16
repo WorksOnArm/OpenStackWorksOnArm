@@ -5,14 +5,14 @@
 
 resource "null_resource" "openstack-sample-workload" {
 
-  depends_on = ["null_resource.controller-openstack"]
-  depends_on = ["null_resource.openstack-image-CentOS-7-x86"]
-  depends_on = ["null_resource.openstack-image-Fedora-26-ARM"]
-  depends_on = ["null_resource.openstack-image-Cirros-x86"]
-  depends_on = ["null_resource.openstack-image-Fedora-26-ARM"]
-  depends_on = ["null_resource.openstack-image-Cirros-x86"]
-  depends_on = ["null_resource.openstack-image-Xenial-16_04-ARM-Image"]
-  depends_on = ["null_resource.openstack-flavors"]
+  depends_on = ["null_resource.controller-openstack",
+  		"null_resource.openstack-image-CentOS-7-x86",
+  		"null_resource.openstack-image-Fedora-26-ARM",
+  		"null_resource.openstack-image-Cirros-x86",
+  		"null_resource.openstack-image-Fedora-26-ARM",
+  		"null_resource.openstack-image-Cirros-x86",
+  		"null_resource.openstack-image-Xenial-16_04-ARM-Image",
+  		"null_resource.openstack-flavors"]
 
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
