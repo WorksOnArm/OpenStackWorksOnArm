@@ -122,7 +122,70 @@ OpenStack Verification via Horizon
 ### TODO
 
 
-OpenStack Verification via CLI
+### CLI Validation
+
+These following commands are run on the Controller node and verify that the system is setup as expected.
+
+* Setup the OpenStack credentials
+```bash
+source admin-openrc
+```
+
+* Validate that all the OpenStack compute services are running. There will be one nova-compute per bare metal compute node provisioned (ARM or x86).
+```
+root@controller:~# openstack compute service list
++----+------------------+----------------+----------+---------+-------+----------------------------+
+| ID | Binary           | Host           | Zone     | Status  | State | Updated At                 |
++----+------------------+----------------+----------+---------+-------+----------------------------+
+|  1 | nova-consoleauth | controller     | internal | enabled | up    | 2017-10-16T20:08:45.000000 |
+|  2 | nova-scheduler   | controller     | internal | enabled | up    | 2017-10-16T20:08:46.000000 |
+|  3 | nova-conductor   | controller     | internal | enabled | up    | 2017-10-16T20:08:47.000000 |
+|  6 | nova-compute     | compute-x86-00 | nova     | enabled | up    | 2017-10-16T20:08:42.000000 |
+|  7 | nova-compute     | compute-arm-00 | nova     | enabled | up    | 2017-10-16T20:08:50.000000 |
++----+------------------+----------------+----------+---------+-------+----------------------------+
+```
+
+* Validate that all the images have been installed
+```
+root@controller:~# openstack image list
++--------------------------------------+-----------------+--------+
+| ID                                   | Name            | Status |
++--------------------------------------+-----------------+--------+
+| d7252321-01ff-4e2d-bff3-746bf3f3cfe6 | CentOS-7-x86_64 | active |
+| fd6f2190-b6f0-433d-b36f-8f20389d83ff | Fedora-26-arm64 | active |
+| 4baf4977-98c3-4261-8240-2d57d83d5b1c | cirros-x86_64   | active |
+| b16d5474-da5f-449b-ab20-5ad4dfdf6bf6 | xenial-arm64    | active |
++--------------------------------------+-----------------+--------+
+```
+
+* Validate that all the ARM compute node has the appropriate number of vCPUs and memory
+```
+root@controller:~# openstack hypervisor show compute-arm-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
++--------------+----------------+
+| Field        | Value          |
++--------------+----------------+
+| memory_mb    | 128873         |
+| running_vms  | 2              |
+| service_host | compute-arm-00 |
+| vcpus        | 96             |
++--------------+----------------+
+```
+
+
+* Validate that all the x86 compute node has the appropriate number of vCPUs and memory
+```
+root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_host -c vcpus -c memory_mb -c running_vms
++--------------+----------------+
+| Field        | Value          |
++--------------+----------------+
+| memory_mb    | 7968           |
+| running_vms  | 2              |
+| service_host | compute-x86-00 |
+| vcpus        | 4              |
++--------------+----------------+
+```
+
+
 
 
 ### TODO
