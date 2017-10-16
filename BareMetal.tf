@@ -20,12 +20,6 @@ resource "packet_device" "controller" {
 
   public_ipv4_subnet_size  = "29"
 
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts"
-    ]
-  }
-
 }
 
 resource "packet_device" "dashboard" {

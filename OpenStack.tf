@@ -4,6 +4,8 @@ resource "random_id" "cloud" {
 }
 
 resource "null_resource" "controller-openstack" {
+  depends_on = ["null_resource.hostfile-distributed"]
+
   connection {
     host = "${packet_device.controller.access_public_ipv4}"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -56,6 +58,7 @@ resource "null_resource" "controller-openstack" {
 }
 
 resource "null_resource" "dashboard-openstack" {
+  depends_on = ["null_resource.hostfile-distributed"]
 
   connection {
     host = "${packet_device.dashboard.access_public_ipv4}"
@@ -65,12 +68,6 @@ resource "null_resource" "dashboard-openstack" {
   provisioner "file" {
     source      = "CommonServerSetup.sh"
     destination = "CommonServerSetup.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
-    ]
   }
 
   provisioner "remote-exec" {
@@ -99,37 +96,9 @@ resource "null_resource" "dashboard-openstack" {
 
 }
 
-# save the dashboard IP in the controller host file
-resource "null_resource" "dashboard-controller-hostname" {
-  connection {
-    host = "${packet_device.controller.access_public_ipv4}"
-    private_key = "${file("${var.cloud_ssh_key_path}")}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${packet_device.dashboard.access_private_ipv4} ${packet_device.dashboard.hostname} >> /etc/hosts",
-    ]
-  }
-}
-
-# save the compute IP in the controller host file
-resource "null_resource" "compute-x86-controller-hostname" {
-  connection {
-    host = "${packet_device.controller.access_public_ipv4}"
-    private_key = "${file("${var.cloud_ssh_key_path}")}"
-  }
-
-  count = "${var.openstack_compute-x86_count}"
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${element(packet_device.compute-x86.*.access_private_ipv4, count.index)} ${element(packet_device.compute-x86.*.hostname, count.index)} >> /etc/hosts",
-    ]
-  }
-}
-
 resource "null_resource" "compute-x86-openstack" {
+  depends_on = ["null_resource.hostfile-distributed"]
+
   count = "${var.openstack_compute-x86_count}"
 
   connection {
@@ -154,13 +123,6 @@ resource "null_resource" "compute-x86-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
-      "echo ${element(packet_device.compute-x86.*.access_private_ipv4, count.index)} ${element(packet_device.compute-x86.*.hostname, count.index)} >> /etc/hosts",
-    ]
-  }
-
-  provisioner "remote-exec" {
-    inline = [
       "bash CommonServerSetup.sh > CommonServerSetup.out",
       "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} > ComputeNova.out",
       "bash ComputeNeutron.sh > ComputeNeutron.out",
@@ -168,24 +130,9 @@ resource "null_resource" "compute-x86-openstack" {
   }
 }
 
-# save the ARM compute IP in the controller host file
-resource "null_resource" "compute-arm-controller-hostname" {
-  connection {
-    host = "${packet_device.controller.access_public_ipv4}"
-    private_key = "${file("${var.cloud_ssh_key_path}")}"
-  }
-
-  count = "${var.openstack_compute-arm_count}"
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${element(packet_device.compute-arm.*.access_private_ipv4, count.index)} ${element(packet_device.compute-arm.*.hostname, count.index)} >> /etc/hosts",
-    ]
-  }
-}
-
-
 resource "null_resource" "compute-arm-openstack" {
+  depends_on = ["null_resource.hostfile-distributed"]
+
   count = "${var.openstack_compute-arm_count}"
 
   connection {
@@ -206,13 +153,6 @@ resource "null_resource" "compute-arm-openstack" {
   provisioner "file" {
     source      = "ComputeNeutron.sh"
     destination = "ComputeNeutron.sh"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "echo ${packet_device.controller.access_private_ipv4} ${packet_device.controller.hostname} >> /etc/hosts",
-      "echo ${element(packet_device.compute-arm.*.access_private_ipv4, count.index)} ${element(packet_device.compute-arm.*.hostname, count.index)} >> /etc/hosts",
-    ]
   }
 
   provisioner "remote-exec" {
