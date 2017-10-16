@@ -14,7 +14,7 @@ variable "packet_facility" {
 
 variable "packet_controller_type" {
   description = "Instance type of OpenStack controller"
-  default = "baremetal_2a5"
+  default = "baremetal_2a"
 }
 
 variable "packet_dashboard_type" {
@@ -34,7 +34,7 @@ variable "openstack_compute-x86_count" {
 
 variable "packet_compute-arm_type" {
   description = "Instance type of OpenStack ARM compute nodes"
-  default = "baremetal_2a5"
+  default = "baremetal_2a"
 }
 
 variable "openstack_compute-arm_count" {

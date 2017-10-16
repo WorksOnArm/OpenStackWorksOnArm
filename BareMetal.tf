@@ -7,7 +7,7 @@ resource "packet_device" "controller" {
   tags     = ["openstack-${random_id.cloud.hex}"]
 
   operating_system = "ubuntu_16_04"
-  plan             = "baremetal_2a5"
+  plan             = "${var.packet_controller_type}"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
@@ -70,7 +70,7 @@ resource "packet_device" "compute-arm" {
   count = "${var.openstack_compute-arm_count}"
 
   operating_system = "ubuntu_16_04"
-  plan             = "baremetal_2a5"
+  plan             = "${var.packet_compute-arm_type}"
   connection {
     user = "root"
     private_key = "${file("${var.cloud_ssh_key_path}")}"
