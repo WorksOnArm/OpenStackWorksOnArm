@@ -66,7 +66,7 @@ resource "null_resource" "openstack-image-Cirros-x86" {
   }
 }
 
-resource "null_resource" "openstack-image-Xenial-16_04-ARM-Image" {
+resource "null_resource" "openstack-image-Xenial-16_04-ARM" {
 
   depends_on = ["null_resource.controller-openstack"]
 
@@ -87,7 +87,7 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM-Image" {
   }
 }
 
-resource "null_resource" "openstack-image-Cirros-ARM-Image" {
+resource "null_resource" "openstack-image-Cirros-ARM" {
 
   depends_on = ["null_resource.controller-openstack"]
 

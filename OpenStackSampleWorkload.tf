@@ -11,7 +11,8 @@ resource "null_resource" "openstack-sample-workload" {
   		"null_resource.openstack-image-Cirros-x86",
   		"null_resource.openstack-image-Fedora-26-ARM",
   		"null_resource.openstack-image-Cirros-x86",
-  		"null_resource.openstack-image-Xenial-16_04-ARM-Image",
+  		"null_resource.openstack-image-Xenial-16_04-ARM",
+  		"null_resource.openstack-image-Cirros-ARM",
   		"null_resource.openstack-flavors"]
 
   connection {
