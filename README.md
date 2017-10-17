@@ -6,7 +6,15 @@ You can create an OpenStack cloud powered by Packet ARM bare metal using Terrafo
 
 This deployment defaults to a minimum 4 node OpenStack cloud consisting of 3 ARM nodes and a single x86 node. The x86 node is included to showcase how OpenStack can concurrently manage ARM and x86 virtual workloads atop a heterogenous cloud. The controller and dashboard nodes are configured to run on ARM hardware. It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). By default, the template uses the smallest sized ARM (baremetal_2a) and x86 (baremetal_0) hardware available.
 
-If you require support, please email help@packet.net, visit the Packet IRC channel (#packethost on freenode), or post an issue within this GitHub.
+If you require support, please email help@packet.net, visit the Packet IRC channel (#packethost on freenode), or post an issue within this repository.
+
+## Cloud Abilities
+
+The default deployment supports both ARM and x86 based virtual workloads across multiple compute nodes. Inter-node communication is setup allowing virtual machines within the same overlay network but on different compute nodes to communicate with each other across underlying VXLAN networks. This is a transparent capability of OpenStack. Management and inter-node traffic travers the private Packet project network (10 subnet). Public OpenStack services are available via the public IP addresses assigned by Packet. DNS is not setup as part of this deployment so use IP addresses to access the services. The backend private IP addresses are mapped automatically into the node hostfiles via the deployment process.
+
+The virtual machine images are deployed with enabled usernames and passwords allowing console login. For more details please see "userdata.txt", the cloud-init file that is used for the CentOS, Fedora, and Ubuntu virtual machines. The Cirros default login information is displayed on the console when logging in. The controller and compute nodes are configured with VNC console access for all the x86 machines. Console access is via the Horizon GUI dashboard. Since the ARM virtual machines do not support VNC console access, novaconsole has been made available on the controller via CLI.
+
+By default, upstream connectivity from inside the cloud (virtual machines/networks) to the Internet is not enabled. Connectivity within internal virtual networks is enabled. The sample workload has SSH (TCP-22) and ICMP traffic enabled via security groups.
 
 ## Prerequisites
 
@@ -111,13 +119,15 @@ The OpenStack Horizon dashboard can be pulled up at the URL listed with the user
 The OpenStack Controller (CLI) can be accessed at the SSH address listed with the key provided.
 
 
-OpenStack Defaults
+## Sample Workload
 
-This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines.
+This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
+
+https://github.com/WorksOnArm/OpenStackWorksOnArm/blob/master/SampleOpenStackWorkload.sh
 
 
 ## Validation
-The deploy can be verified via the OpenStack CLI and/or via the OpenStack GUI (Horizon). The CLI commands can be run on the Contoller node (via SSH). The GUI commands are run on a web browser using the URL and credentials output by Terraform. The individual CLI commands and GUI drill down paths are listed below.
+The deploy can be verified via the OpenStack CLI and/or via the OpenStack GUI (Horizon). The CLI commands can be run on the Contoller node (via SSH). The GUI commands are run on a web browser using the URL and credentials output by Terraform. The individual CLI commands and GUI drill down paths are listed below. This validation checks that all the compute nodes are running and the same workload virtual machines images are running.
 
 When running the CLI, the OpenStack credentials need to be setup by reading in the openrc file.
 
@@ -185,7 +195,7 @@ root@controller:~# openstack hypervisor show compute-x86-00 -f table -c service_
 
 * Validate that all the virtual machines are running
 * Horizon: Admin->Compute->Instances
-
+```
 root@controller:~# openstack server list
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 | ID                                   | Name         | Status | Networks                                      | Image           | Flavor   |
@@ -195,6 +205,8 @@ root@controller:~# openstack server list
 | fde4add6-391f-4597-8cf5-0f151f732203 | centos-x86   | ACTIVE | sample-workload=192.168.100.5, 192.168.100.15 | CentOS-7-x86_64 | m1.small |
 | 9288f3f3-dd10-4cd5-8bd3-ec0fe1ac3025 | cirros-x86   | ACTIVE | sample-workload=192.168.100.8, 192.168.100.12 | cirros-x86_64   | m1.small |
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
+```
+
 
 
 
