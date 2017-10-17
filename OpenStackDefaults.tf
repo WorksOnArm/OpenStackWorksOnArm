@@ -87,6 +87,27 @@ resource "null_resource" "openstack-image-Xenial-16_04-ARM-Image" {
   }
 }
 
+resource "null_resource" "openstack-image-Cirros-ARM-Image" {
+
+  depends_on = ["null_resource.controller-openstack"]
+
+  connection {
+    host = "${packet_device.controller.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
+  }
+
+  provisioner "file" {
+    source      = "Cirros-ARM-Image.sh"
+    destination = "Cirros-ARM-Image.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash Cirros-ARM-Image.sh > Cirros-ARM-Image.out",
+    ]
+  }
+}
+
 resource "null_resource" "openstack-flavors" {
 
   depends_on = ["null_resource.controller-openstack"]

@@ -30,7 +30,7 @@ SUBNET_ID=`openstack subnet create              \
 # create a cirros x86 machine
 # 
 openstack server create \
-	--flavor m1.small \
+	--flavor m1.tiny \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
 	--image cirros-x86_64 \
@@ -69,3 +69,12 @@ openstack server create \
 	--key-name default \
 	--user-data userdata.txt \
 	fedora-arm64
+
+openstack server create \
+	--flavor m1.tiny \
+	--network ${NETWORK_ID} \
+	--security-group ${SEC_GROUP} \
+	--image Cirros-arm \
+	--key-name default \
+	--user-data userdata.txt \
+	fedora-arm
