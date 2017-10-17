@@ -111,13 +111,15 @@ The OpenStack Horizon dashboard can be pulled up at the URL listed with the user
 The OpenStack Controller (CLI) can be accessed at the SSH address listed with the key provided.
 
 
-OpenStack Defaults
+## Sample Workload
 
-This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines.
+This deployment includes the following additional items in addition atop of the OpenStack installation. This includes a set of virtual machine images (Cirros, CentOS, Fedora, Ubuntu), a virtual network and some running virtual machines. For more information on the deployed workloads, please see:
+
+https://github.com/WorksOnArm/OpenStackWorksOnArm/blob/master/SampleOpenStackWorkload.sh
 
 
 ## Validation
-The deploy can be verified via the OpenStack CLI and/or via the OpenStack GUI (Horizon). The CLI commands can be run on the Contoller node (via SSH). The GUI commands are run on a web browser using the URL and credentials output by Terraform. The individual CLI commands and GUI drill down paths are listed below.
+The deploy can be verified via the OpenStack CLI and/or via the OpenStack GUI (Horizon). The CLI commands can be run on the Contoller node (via SSH). The GUI commands are run on a web browser using the URL and credentials output by Terraform. The individual CLI commands and GUI drill down paths are listed below. This validation checks that all the compute nodes are running and the same workload virtual machines images are running.
 
 When running the CLI, the OpenStack credentials need to be setup by reading in the openrc file.
 
