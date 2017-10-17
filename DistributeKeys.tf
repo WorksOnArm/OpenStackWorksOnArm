@@ -11,12 +11,12 @@ resource "null_resource" "controller-distribute-keys" {
   }
 
   provisioner "file" {
-    source      = "${file("${var.cloud_ssh_key_path}")}"
+    source      = "${var.cloud_ssh_key_path}"
     destination = "openstack_rsa"
   }
 
   provisioner "file" {
-    source      = "${file("${var.cloud_ssh_public_key_path}")}"
+    source      = "${var.cloud_ssh_public_key_path}"
     destination = "openstack_rsa.pub"
   }
 
@@ -32,12 +32,12 @@ resource "null_resource" "dashboard-distribute-keys" {
   }
 
   provisioner "file" {
-    source      = "${file("${var.cloud_ssh_key_path}")}"
+    source      = "${var.cloud_ssh_key_path}"
     destination = "openstack_rsa"
   }
 
   provisioner "file" {
-    source      = "${file("${var.cloud_ssh_public_key_path}")}"
+    source      = "${var.cloud_ssh_public_key_path}"
     destination = "openstack_rsa.pub"
   }
 
