@@ -30,10 +30,10 @@ output "Controller SSH" {
   value = "ssh root@${packet_device.controller.access_public_ipv4} -i ${var.cloud_ssh_key_path}"
 }
 
-output "Horizon dashboard via DNS" {
-  value = "http://${dnsimple_record.dashboard-dns.hostname}/horizon/ admin/ADMIN_PASS"
-}
-
-output "Controller SSH via DNS" {
-  value = "ssh root@${dnsimple_record.controller-dns.hostname} -i ${var.cloud_ssh_key_path}"
-}
+#output "Horizon dashboard via DNS" {
+#  value = "http://${dnsimple_record.dashboard-dns.hostname}/horizon/ admin/ADMIN_PASS"
+#}
+#
+#output "Controller SSH via DNS" {
+#  value = "ssh root@${dnsimple_record.controller-dns.hostname} -i ${var.cloud_ssh_key_path}"
+#}
