@@ -8,7 +8,7 @@ export OS_IDENTITY_API_VERSION=3
 
 # Download ARM images and upload into OpenStack (Glance)
 IMG_URL=http://download.cirros-cloud.net/daily/20161007/cirros-d161007-aarch64-disk.img
-IMG_NAME=cirros-arm
+IMG_NAME=Cirros-arm64
 OS_DISTRO=cirros
 
 openstack image delete $IMG_NAME
