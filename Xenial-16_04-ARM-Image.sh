@@ -13,8 +13,11 @@ IMG_NAME=Xenial-arm64
 OS_DISTRO=ubuntu
 wget --quiet $IMG_URL
 tar xfvz ubuntu-16.04-server-cloudimg-arm64.tar.gz xenial-server-cloudimg-arm64.img
-glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --file xenial-server-cloudimg-arm64.img \
+openstack image create \
+	--disk-format qcow2 --container-format bare \
+	--file xenial-server-cloudimg-arm64.img \
 	--property hw_firmware_type=uefi \
-	--visibility public --disk-format raw --container-format bare --property os_distro=$OS_DISTRO --progress
+	--public \
+	$IMG_NAME
 rm xenial-server-cloudimg-arm64.img
 rm ubuntu-16.04-server-cloudimg-arm64.tar.gz

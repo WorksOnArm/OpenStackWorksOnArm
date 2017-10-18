@@ -12,6 +12,8 @@ IMG_URL=https://dl.fedoraproject.org/pub/fedora-secondary/releases/26/CloudImage
 IMG_NAME=Fedora-26-arm64
 OS_DISTRO=fedora
 wget -q -O - $IMG_URL | \
-glance  --os-image-api-version 2 image-create --protected True --name $IMG_NAME --property hw_firmware_type=uefi \
-	--visibility public --disk-format raw --container-format bare --property os_distro=$OS_DISTRO --progress
-
+openstack image create \
+	--disk-format qcow2 --container-format bare \
+	--property hw_firmware_type=uefi \
+	--public \
+	$IMG_NAME
