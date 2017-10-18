@@ -51,3 +51,8 @@ variable "cloud_ssh_key_path" {
   description = "Path to your private SSH key for the project"
   default = "./packet-key"
 }
+
+variable "create_dns" {
+  description = "If set to true, DNSSimple will be setup"
+  default = false
+}

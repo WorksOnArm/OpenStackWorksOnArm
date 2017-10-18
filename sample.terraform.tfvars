@@ -16,3 +16,5 @@
 
 #cloud_ssh_key_path = "./packet-key"
 #cloud_ssh_public_key_path = "packet-key.pub"
+
+#create_dns = true
