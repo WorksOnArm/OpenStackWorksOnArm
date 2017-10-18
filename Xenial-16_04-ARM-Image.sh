@@ -9,7 +9,7 @@ export OS_IDENTITY_API_VERSION=3
 # Download ARM images and upload into OpenStack (Glance)
 
 IMG_URL=https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-arm64.tar.gz
-IMG_NAME=xenial-arm64
+IMG_NAME=Xenial-arm64
 OS_DISTRO=ubuntu
 wget --quiet $IMG_URL
 tar xfvz ubuntu-16.04-server-cloudimg-arm64.tar.gz xenial-server-cloudimg-arm64.img

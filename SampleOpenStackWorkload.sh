@@ -33,9 +33,9 @@ openstack server create \
 	--flavor m1.tiny \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
-	--image cirros-x86_64 \
+	--image Cirros-x86_64 \
 	--key-name default \
-	cirros-x86
+	Cirros-x86
 
 #
 # create x86 machines with password based logins enabled
@@ -47,7 +47,7 @@ openstack server create \
 	--image CentOS-7-x86_64 \
 	--key-name default \
 	--user-data userdata.txt \
-	centos-x86
+	Centos-x86
 
 #
 # create ARM machines with password based logins enabled
@@ -56,10 +56,10 @@ openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
-	--image xenial-arm64 \
+	--image Xenial-arm64 \
 	--key-name default \
 	--user-data userdata.txt \
-	xenial-arm64
+	Xenial-arm64
 
 openstack server create \
 	--flavor m1.small \
@@ -68,13 +68,13 @@ openstack server create \
 	--image Fedora-26-arm64 \
 	--key-name default \
 	--user-data userdata.txt \
-	fedora-arm64
+	Fedora-arm64
 
 openstack server create \
 	--flavor m1.tiny \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
-	--image Cirros-arm \
+	--image Cirros-arm64 \
 	--key-name default \
 	--user-data userdata.txt \
-	fedora-arm
+	Cirros-arm64
