@@ -2,11 +2,17 @@
 
 ## Overview
 
-You can create an OpenStack cloud powered by Packet ARM bare metal using Terraform quickly and easily using these instructions. This deployment showcases how a multi-node cloud can be deployed across ARM powered bare metal.
+Use Terraform to quickly and easily create an OpenStack cloud powered by Armv8 and/or x86 bare metal servers at Packet. Specifically, this deployment showcases how a multi-node cloud can be deployed on Armv8 bare metal.
 
-This deployment defaults to a minimum 4 node OpenStack cloud consisting of 3 ARM nodes and a single x86 node. The x86 node is included to showcase how OpenStack can concurrently manage ARM and x86 virtual workloads atop a heterogenous cloud. The controller and dashboard nodes are configured to run on ARM hardware. It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). By default, the template uses the smallest sized ARM (baremetal_2a) and x86 (baremetal_0) hardware available.
+The deployment defaults to a minimum 4 node OpenStack cloud, consisting of 3 Armv8 nodes and a single x86 node. The x86 node is included to showcase how OpenStack can concurrently manage Arm and x86 virtual workloads atop a heterogenous cloud. 
 
-If you require support, please email help@packet.net, visit the Packet IRC channel (#packethost on freenode), or post an issue within this repository.
+- The controller and dashboard nodes are configured to run on Armv8 hardware. 
+- It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
+- By default, the template uses the smallest sized ARM (baremetal_2a) and x86 (baremetal_0) hardware available.
+
+If you require support, please email [help@packet.net](mailto:help@packet.net), visit the Packet IRC channel (#packethost on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.net) or post an issue within this repository.
+
+Contributions are welcome to help extend this work!
 
 ## Cloud Abilities
 
