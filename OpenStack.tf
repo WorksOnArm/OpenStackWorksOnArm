@@ -78,7 +78,7 @@ resource "null_resource" "dashboard-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "apt-get -y install openstack-dashboard",
+      "apt-get -y install openstack-dashboard > Dashboard.out",
     ]
   }
 
