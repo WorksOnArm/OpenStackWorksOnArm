@@ -230,6 +230,12 @@ novaconsole --url ws://157.75.79.194:6083/?token=18510769-71ad-4e5a-8348-4218b56
 
 Root logins and cloud account logins (centos/ubuntu) are permited using the password in userdata.txt. The cirros default logins are enabled by default.
 
+The two commands can be combined into one as shown below:
+
+```bash
+novaconsole --url `openstack console url show --serial Cirros-x86 -f value -c url`
+```
+
 
 
 
