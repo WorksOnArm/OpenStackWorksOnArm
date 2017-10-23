@@ -58,6 +58,8 @@ openstack endpoint create --region RegionOne placement admin http://controller:8
     
 apt-get -y install nova-api nova-conductor nova-consoleauth \
   nova-novncproxy nova-scheduler nova-placement-api
+
+apt-get -y install nova-serialproxy nova-console
   
 crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:NOVA_DBPASS@controller/nova_api
 
