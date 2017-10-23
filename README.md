@@ -213,6 +213,23 @@ root@controller:~# openstack server list
 +--------------------------------------+--------------+--------+-----------------------------------------------+-----------------+----------+
 ```
 
+## Serial Console Support
+
+Access to the serial console is available via the "novaconsole" application installed from the controller node. The OpenStack CLI can be used to general a URL with a valid token to access the console.
+
+```bash
+source admin-openrc
+openstack console show url --serial xenial-arm64
+```
+
+The provided URL can then be passed to the novaconsole command to pull up the serial console.
+
+```bash
+novaconsole --url ws://157.75.79.194:6083/?token=18510769-71ad-4e5a-8348-4218b5613b3d
+```
+
+Root logins and cloud account logins (centos/ubuntu) are permited using the password in userdata.txt. The cirros default logins are enabled by default.
+
 
 
 
