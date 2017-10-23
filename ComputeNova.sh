@@ -8,6 +8,8 @@ MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
 # nova
 apt-get -y install nova-compute
 
+apt-get -y install nova-serialproxy nova-console
+
 crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
 
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
@@ -49,6 +51,12 @@ crudini --set /etc/nova/nova.conf placement password PLACEMENT_PASS
 
 crudini --set /etc/nova/nova.conf libvirt virt_type kvm
 
+crudini --set /etc/nova/nova.conf serial_console enabled true
+crudini --set /etc/nova/nova.conf serial_console base_url ws://${CONTROLLER_PUBLIC_IP}:6083/
+crudini --set /etc/nova/nova.conf serial_console proxyclient_address 127.0.0.1
+crudini --set /etc/nova/nova.conf serial_console listen 0.0.0.0 
+crudini --set /etc/nova/nova.conf serial_console serialproxy_port 6083
+
 # CPU Architecture Specific Settings
 ARCH=`dpkg --print-architecture`
 
@@ -61,10 +69,6 @@ elif [ $ARCH == arm64 ]; then
   crudini --set /etc/nova/nova.conf spice enabled False 
   crudini --set /etc/nova/nova.conf libvirt virt_type kvm
   crudini --set /etc/nova/nova.conf libvirt cpu_mode host-passthrough
-  crudini --set /etc/nova/nova.conf serial_console enabled true
-  crudini --set /etc/nova/nova.conf serial_console base_url 'ws://controller:6083/'
-  crudini --set /etc/nova/nova.conf serial_console proxyclient_address ${MY_IP}
-  crudini --set /etc/nova/nova.conf serial_console listen 0.0.0.0 
  
   apt-get -y install qemu-efi
 fi
