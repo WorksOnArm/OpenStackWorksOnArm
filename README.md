@@ -219,7 +219,7 @@ Access to the serial console is available via the "novaconsole" application inst
 
 ```bash
 source admin-openrc
-openstack console show url --serial xenial-arm64
+openstack console url show --serial Xenial-arm64
 ```
 
 The provided URL can then be passed to the novaconsole command to pull up the serial console.
