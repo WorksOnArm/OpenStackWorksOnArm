@@ -2,7 +2,7 @@
 #packet_auth_token 
 #packet_project_id = ""
 
-#packet_facility = "sjc1"
+#packet_facility = "ewr1"
 
 #packet_controller_type =
  

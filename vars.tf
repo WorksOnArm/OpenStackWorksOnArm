@@ -19,7 +19,7 @@ variable "packet_controller_type" {
 
 variable "packet_dashboard_type" {
   description = "Instance type of OpenStack dashboard"
-  default = "baremetal_0"
+  default = "baremetal_2a"
 }
 
 variable "packet_compute-x86_type" {
