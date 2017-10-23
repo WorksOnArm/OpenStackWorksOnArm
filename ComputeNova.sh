@@ -53,7 +53,7 @@ crudini --set /etc/nova/nova.conf libvirt virt_type kvm
 
 crudini --set /etc/nova/nova.conf serial_console enabled true
 crudini --set /etc/nova/nova.conf serial_console base_url ws://${CONTROLLER_PUBLIC_IP}:6083/
-crudini --set /etc/nova/nova.conf serial_console proxyclient_address 127.0.0.1
+crudini --set /etc/nova/nova.conf serial_console proxyclient_address ${MY_IP}
 crudini --set /etc/nova/nova.conf serial_console listen 0.0.0.0 
 crudini --set /etc/nova/nova.conf serial_console serialproxy_port 6083
 
