@@ -1,0 +1,35 @@
+{% set flavor_name = "m1.tiny" %}
+# pick arm or x86 depending on the compute server to performance test
+#{% set image_name = "Cirros-x86_64" %}
+#{% set image_name = "Cirros-arm64" %}
+{
+    "NovaServers.boot_and_delete_server": [
+        {
+            "args": {
+                "flavor": {
+                    "name": "{{flavor_name}}"
+                },
+                "image": {
+                    "name": "{{image_name}}"
+                },
+                "force_delete": false
+            },
+            "runner": {
+                "type": "constant",
+                "times": 1000,
+                "concurrency": 10
+            },
+            "context": {
+                "users": {
+                    "tenants": 3,
+                    "users_per_tenant": 2
+                }
+            },
+            "sla": {
+                "failure_rate": {
+                    "max": 0
+                }
+            }
+        }
+    ]
+}
