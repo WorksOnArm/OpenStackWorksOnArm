@@ -7,11 +7,11 @@ output "Controller Type" {
 }
 
 output "Compute x86 Type" {
-  value = "${packet_device.compute-x86.plan}"
+  value = "${packet_device.compute-x86.*.plan}"
 }
 
 output "Compute ARM Type" {
-  value = "${packet_device.compute-arm.plan}"
+  value = "${packet_device.compute-arm.*.plan}"
 }
 
 output "Compute x86 IPs" {
