@@ -6,11 +6,13 @@
 resource "null_resource" "openstack-sample-workload" {
 
   depends_on = ["null_resource.controller-openstack",
+      "null_resource.openstack-image-CentOS-7-ARM",
   		"null_resource.openstack-image-CentOS-7-x86",
   		"null_resource.openstack-image-Fedora-26-ARM",
   		"null_resource.openstack-image-Cirros-x86",
   		"null_resource.openstack-image-Fedora-26-ARM",
   		"null_resource.openstack-image-Cirros-x86",
+      "null_resource.openstack-image-Artful-17_10-ARM",
   		"null_resource.openstack-image-Xenial-16_04-ARM",
   		"null_resource.openstack-image-Cirros-ARM",
   		"null_resource.openstack-flavors"]
