@@ -10,13 +10,13 @@ export OS_IDENTITY_API_VERSION=3
 
 openstack keypair create default > default.pem
 
-# 
+#
 SEC_GROUP=`openstack security group create ssh-icmp -f value -c id`
 openstack security group rule create --protocol icmp --ingress $SEC_GROUP
 openstack security group rule create --dst-port 22 --protocol tcp --ingress $SEC_GROUP
 
 #
-# create an network 
+# create an network
 #
 NETWORK_ID=`openstack network create sample-workload -f value -c id`
 INTERNAL_SUBNET="192.168.100.0/24"
@@ -28,7 +28,7 @@ SUBNET_ID=`openstack subnet create              \
 
 #
 # create a cirros x86 machine
-# 
+#
 openstack server create \
 	--flavor m1.tiny \
 	--network ${NETWORK_ID} \
@@ -39,7 +39,7 @@ openstack server create \
 
 #
 # create x86 machines with password based logins enabled
-# 
+#
 openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
@@ -52,6 +52,24 @@ openstack server create \
 #
 # create ARM machines with password based logins enabled
 #
+openstack server create \
+	--flavor m1.small \
+	--network ${NETWORK_ID} \
+	--security-group ${SEC_GROUP} \
+	--image Artful-arm64 \
+	--key-name default \
+	--user-data userdata.txt \
+	Artful-arm64
+
+openstack server create \
+	--flavor m1.small \
+	--network ${NETWORK_ID} \
+	--security-group ${SEC_GROUP} \
+  --image CentOS-7-arm64 \
+  --key-name default \
+  --user-data userdata.txt \
+  Centos-arm64
+
 openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \

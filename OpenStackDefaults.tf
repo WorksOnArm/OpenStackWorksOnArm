@@ -2,6 +2,26 @@
 #
 # load up the OpenStack cloud with some default settings and images
 #
+resource "null_resource" "openstack-image-CentOS-7-ARM" {
+
+  depends_on = ["null_resource.controller-openstack"]
+
+  connection {
+    host = "${packet_device.controller.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
+  }
+
+  provisioner "file" {
+    source      = "CentOS-7-ARM-Image.sh"
+    destination = "CentOS-7-ARM-Image.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash CentOS-7-ARM-Image.sh > CentOS-7-ARM-Image.out",
+    ]
+  }
+}
 
 resource "null_resource" "openstack-image-CentOS-7-x86" {
 
@@ -62,6 +82,27 @@ resource "null_resource" "openstack-image-Cirros-x86" {
   provisioner "remote-exec" {
     inline = [
       "bash Cirros-x86-Image.sh > Cirros-x86-Image.out",
+    ]
+  }
+}
+
+resource "null_resource" "openstack-image-Artful-17_10-ARM" {
+
+  depends_on = ["null_resource.controller-openstack"]
+
+  connection {
+    host = "${packet_device.controller.access_public_ipv4}"
+    private_key = "${file("${var.cloud_ssh_key_path}")}"
+  }
+
+  provisioner "file" {
+    source      = "Artful-17_10-ARM-Image.sh"
+    destination = "Artful-17_10-ARM-Image.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash Artful-17_10-ARM-Image.sh > Artful-17_10-ARM-Image.out",
     ]
   }
 }
