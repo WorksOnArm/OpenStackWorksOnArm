@@ -14,5 +14,6 @@ OS_DISTRO=centos
 wget -q -O - $IMG_URL | \
 openstack image create \
 	--disk-format qcow2 --container-format bare \
+	--property hw_firmware_type=uefi \
 	--public \
 	$IMG_NAME
