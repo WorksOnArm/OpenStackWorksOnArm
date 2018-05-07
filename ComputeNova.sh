@@ -1,6 +1,7 @@
 # Compute node only below
 
 CONTROLLER_PUBLIC_IP=$1
+CONTROLLER_PRIVATE_IP=$2
 
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
@@ -10,7 +11,7 @@ apt-get -y install nova-compute
 
 apt-get -y install nova-serialproxy nova-console
 
-crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
+crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}
 
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
 

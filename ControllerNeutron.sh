@@ -1,8 +1,15 @@
 # Controller Only Below
 
-# private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+CONTROLLER_PUBLIC_IP=$1
+CONTROLLER_PRIVATE_IP=$2
 
+# private IP addr (10...)
+MY_PRIVATE_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_PUBLIC_IP=`hostname -I | xargs -n1 | head -1`
+
+# enable IP forwarding for external traffic passing (uncomment it in with value of 1)
+sed -i 's/#net.ipv4.ip_forward/net.ipv4.ip_forward/g' /etc/sysctl.conf
+sysctl -w net.ipv4.ip_forward=1
 
 ## nova
 mysql --batch -e "\
@@ -40,13 +47,13 @@ apt-get -y install neutron-server neutron-plugin-ml2 \
   neutron-linuxbridge-agent neutron-l3-agent neutron-dhcp-agent \
   neutron-metadata-agent
 
-crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:NEUTRON_DBPASS@controller/neutron
+crudini --set /etc/neutron/neutron.conf database connection mysql+pymysql://neutron:NEUTRON_DBPASS@${CONTROLLER_PRIVATE_IP}/neutron
 
 crudini --set /etc/neutron/neutron.conf DEFAULT core_plugin ml2
 crudini --set /etc/neutron/neutron.conf DEFAULT service_plugins router
 crudini --set /etc/neutron/neutron.conf DEFAULT allow_overlapping_ips true
 
-crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
+crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 
 crudini --set /etc/neutron/neutron.conf keystone_authtoken auth_uri http://controller:5000
@@ -71,7 +78,7 @@ crudini --set /etc/neutron/neutron.conf nova project_name service
 crudini --set /etc/neutron/neutron.conf nova username nova
 crudini --set /etc/neutron/neutron.conf nova password NOVA_PASS
 
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers flat,vlan,vxlan
+crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 type_drivers flat,vxlan
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 tenant_network_types vxlan
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 mechanism_drivers linuxbridge,l2population
 crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini ml2 extension_drivers port_security
@@ -85,7 +92,7 @@ crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini securitygroup enable_ipset t
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini linux_bridge physical_interface_mappings provider:bond0
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan enable_vxlan true
-crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${MY_IP}
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${MY_PUBLIC_IP}
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan l2_population true
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup enable_security_group true

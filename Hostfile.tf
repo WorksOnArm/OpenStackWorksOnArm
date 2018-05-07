@@ -157,7 +157,11 @@ resource "null_resource" "hostfile-distributed" {
   depends_on = ["null_resource.controller-write-hostfile",
 		"null_resource.dashboard-write-hostfile",
 		"null_resource.compute-x86-write-hostfile",
-		"null_resource.compute-arm-write-hostfile"]
+		"null_resource.compute-arm-write-hostfile",
+		"null_resource.controller-removelocalhost-hostfile",
+		"null_resource.dashboard-removelocalhost-hostfile",
+		"null_resource.compute-x86-removelocalhost-hostfile",
+		"null_resource.compute-arm-removelocalhost-hostfile"]
 
   provisioner "local-exec" {
     command = 

@@ -2,7 +2,8 @@
 
 
 # private IP addr (10...)
-MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_PRIVATE_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
+MY_PUBLIC_IP=`hostname -I | xargs -n1 | head -1`
 
 apt-get -y install neutron-linuxbridge-agent
 
@@ -26,7 +27,7 @@ crudini --set /etc/neutron/neutron.conf keystone_authtoken password NEUTRON_PASS
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini linux_bridge physical_interface_mappings provider:bond0
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan enable_vxlan true
-crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${MY_IP}
+crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip ${MY_PUBLIC_IP}
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan l2_population true
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini securitygroup enable_security_group true

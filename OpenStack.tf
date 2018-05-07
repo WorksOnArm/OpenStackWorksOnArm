@@ -51,8 +51,8 @@ resource "null_resource" "controller-openstack" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} > ControllerNova.out",
-      "bash ControllerNeutron.sh > ControllerNeutron.out",
+      "bash ControllerNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNova.out",
+      "bash ControllerNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ControllerNeutron.out",
     ]
   }
 }
@@ -124,8 +124,8 @@ resource "null_resource" "compute-x86-openstack" {
   provisioner "remote-exec" {
     inline = [
       "bash CommonServerSetup.sh > CommonServerSetup.out",
-      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} > ComputeNova.out",
-      "bash ComputeNeutron.sh > ComputeNeutron.out",
+      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
+      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
     ]
   }
 }

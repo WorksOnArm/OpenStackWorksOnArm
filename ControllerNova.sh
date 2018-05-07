@@ -1,6 +1,7 @@
 # Controller Only Below
 
 CONTROLLER_PUBLIC_IP=$1
+CONTROLLER_PRIVATE_IP=$2
 
 # private IP addr (10...)
 MY_IP=`hostname -I | xargs -n1 | grep "^10\." | head -1`
@@ -61,11 +62,11 @@ apt-get -y install nova-api nova-conductor nova-consoleauth \
 
 apt-get -y install nova-serialproxy nova-console
   
-crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:NOVA_DBPASS@controller/nova_api
+crudini --set /etc/nova/nova.conf api_database connection mysql+pymysql://nova:NOVA_DBPASS@${CONTROLLER_PRIVATE_IP}/nova_api
 
-crudini --set /etc/nova/nova.conf database connection mysql+pymysql://nova:NOVA_DBPASS@controller/nova
+crudini --set /etc/nova/nova.conf database connection mysql+pymysql://nova:NOVA_DBPASS@${CONTROLLER_PRIVATE_IP}/nova
 
-crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@controller
+crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:RABBIT_PASS@${CONTROLLER_PRIVATE_IP}
 
 crudini --set /etc/nova/nova.conf api auth_strategy keystone
 
