@@ -237,7 +237,22 @@ novaconsole --url `openstack console url show --serial Cirros-x86 -f value -c ur
 ```
 
 
+## External Networking Support
 
+External (Provider) networking allows VMs to be assigned Internet addressable floating IPs. This allows the VMs to offer Internet accessible services (i.e. SSH and HTTP). This requires the a block of IP addresses from Packet (elastic IP address). These can be requested through the Packet Web GUI. Please see https://help.packet.net/technical/networking/elastic-ips for more details. Public IPv4 of at least /29 is recommended. A /30 will provide only a single floating IP. A /29 allocation will provide 5 floating IPs.
 
+Once the Terraform has finished, the following steps are required to enable the external networking.
 
+* Assign the elastic IP subnet to the "Controller" physical host via the Packet Web GUI.
+* Log into the Controller physical node via SSH and execute:
 
+```
+sudo bash ExternalNetwork.sh <ELASTIC_CIDR>
+```
+
+For example, if your CIDR subnet is 10.20.30.0/24 the command would be:
+```
+sudo bash ExternalNetwork.sh 10.20.30.0/24
+```
+
+From there, assign a floating IPs via the dashboard and update security groups to permit the desired ports.
