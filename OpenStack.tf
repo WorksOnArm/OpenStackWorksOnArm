@@ -58,7 +58,7 @@ resource "null_resource" "controller-openstack" {
 }
 
 resource "null_resource" "dashboard-openstack" {
-  depends_on = ["null_resource.hostfile-distributed"]
+  depends_on = ["null_resource.controller-openstack"]
 
   connection {
     host = "${packet_device.dashboard.access_public_ipv4}"
@@ -97,7 +97,7 @@ resource "null_resource" "dashboard-openstack" {
 }
 
 resource "null_resource" "compute-x86-openstack" {
-  depends_on = ["null_resource.hostfile-distributed"]
+  depends_on = ["null_resource.controller-openstack"]
 
   count = "${var.openstack_compute-x86_count}"
 
@@ -131,7 +131,7 @@ resource "null_resource" "compute-x86-openstack" {
 }
 
 resource "null_resource" "compute-arm-openstack" {
-  depends_on = ["null_resource.hostfile-distributed"]
+  depends_on = ["null_resource.controller-openstack"]
 
   count = "${var.openstack_compute-arm_count}"
 
