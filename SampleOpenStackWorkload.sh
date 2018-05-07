@@ -65,6 +65,24 @@ openstack server create \
 	--flavor m1.small \
 	--network ${NETWORK_ID} \
 	--security-group ${SEC_GROUP} \
+	--image Trusty-arm64 \
+	--key-name default \
+	--user-data userdata.txt \
+	Trusty-arm64
+
+openstack server create \
+	--flavor m1.small \
+	--network ${NETWORK_ID} \
+	--security-group ${SEC_GROUP} \
+	--image Bionic-arm64 \
+	--key-name default \
+	--user-data userdata.txt \
+	Bionic-arm64
+
+openstack server create \
+	--flavor m1.small \
+	--network ${NETWORK_ID} \
+	--security-group ${SEC_GROUP} \
   --image CentOS-7-arm64 \
   --key-name default \
   --user-data userdata.txt \
