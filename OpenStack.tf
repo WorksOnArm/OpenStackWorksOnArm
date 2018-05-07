@@ -158,8 +158,9 @@ resource "null_resource" "compute-arm-openstack" {
   provisioner "remote-exec" {
     inline = [
       "bash CommonServerSetup.sh > CommonServerSetup.out",
-      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} > ComputeNova.out",
-      "bash ComputeNeutron.sh > ComputeNeutron.out",
+      "bash ComputeNova.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNova.out",
+      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
+      "bash ComputeNeutron.sh ${packet_device.controller.access_public_ipv4} ${packet_device.controller.access_private_ipv4} > ComputeNeutron.out",
     ]
   }
 }
