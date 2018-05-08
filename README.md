@@ -256,3 +256,53 @@ sudo bash ExternalNetwork.sh 10.20.30.0/24
 ```
 
 From there, assign a floating IPs via the dashboard and update security groups to permit the desired ports.
+
+## External Block Storage
+
+Packet offeres block storage that can be attached to compute nodes and used as ephemeral storage for VMs. This involves creating the storage via the Packet Web App, associating the storage with a compute node, and setting up the volume within the compute node. In this example, a 1TB volume is being created for use as ephemeral storage.
+
+# Stop the OpenStack Nova Compute service
+```
+service nova-compute stop
+```
+
+# Create and assign a storage volume
+
+Create the volume via the Packet Web App and assign to the compute node.
+See the steps at: https://help.packet.net/technical/storage/packet-block-storage-linux
+
+```
+apt-get -y install jq
+packet-block-storage-attach
+fdisk /dev/mapper/volume-YOUR_ID_HERE # create a new volume (n) and accept defaults
+mkfs.ext4 /dev/mapper/volume-YOUR_ID_HERE-part1
+blkid | grep volume-YOUR_ID_HERE-part1 # take note of the UUID
+```
+
+# Copy over the existing Nova data
+
+```
+mnt /dev/mapper/volume-YOUR_ID_HERE /mnt
+rsync -avxHAX --progress /var/lib/nova/ /mnt 
+umount /mnt
+rm -rf /var/lib/nova/*
+vi /etc/fstab # add a line like UUID=YOUR-UUID-HERE /var/lib/nova ext4 0 2
+mount -a
+```
+
+# Start the OpenStack Nova Compute service
+```
+service nova-compute start
+```
+
+# Tearing it all down
+
+To decommission a compute node, the above steps must be done in reverse order.
+
+```
+umount /var/lib/nova
+packet-block-storage-deatach
+```
+
+Via the Packet Web App, detach the volume from the host, and then delete the volume. The physical host can then be deprovisioned via Terraform destroy.
+
