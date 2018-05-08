@@ -7,7 +7,7 @@ export OS_AUTH_URL=http://controller:35357/v3
 export OS_IDENTITY_API_VERSION=3
 
 # Download ARM images and upload into OpenStack (Glance)
-IMG_URL=http://download.cirros-cloud.net/daily/20161007/cirros-d161007-aarch64-disk.img
+IMG_URL=http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-aarch64-disk.img
 IMG_NAME=Cirros-arm64
 OS_DISTRO=cirros
 
