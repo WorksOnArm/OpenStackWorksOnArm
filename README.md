@@ -10,7 +10,7 @@ The deployment defaults to a minimum 4 node OpenStack cloud, consisting of 3 Arm
 - It is possible to modify the total number of nodes and the type (various sizes of x86 and ARM hardware provided by Packet). 
 - By default, the template uses the smallest sized ARM (baremetal_2a) and x86 (baremetal_0) hardware available.
 
-If you require support, please email [help@packet.net](mailto:help@packet.net), visit the Packet IRC channel (#packethost on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.net) or post an issue within this repository.
+If you require support, please email [support@packet.com](mailto:support@packet.com), visit the Packet IRC channel (#packethost on freenode), subscribe to the [Packet Community Slack channel](https://slack.packet.com) or post an issue within this repository.
 
 Contributions are welcome to help extend this work!
 
