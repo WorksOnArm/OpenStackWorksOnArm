@@ -44,6 +44,9 @@ You will find your API Key on the left side of the portal. If you have existing 
 
 https://app.packet.net/portal#/api-keys/new
 
+#### Ensure that your Packet account has an SSh key attached
+When provisioning the machines, Packet will preset an SSH key to allow administrative access. If no SSH keys are available, it will fail with a "Must have at least one SSH key" error. To fix this, add an ssh key in you Packet account.
+
 ### Terraform
 
 These instructions use Terraform from Hashicorp to drive the deployment. If you don't have Terraform installed already, you can download and install Terraform using the instructions on the link below:
