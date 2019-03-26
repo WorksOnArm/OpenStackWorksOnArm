@@ -18,16 +18,20 @@ if [ -z $PROVIDER_CIDR ]; then
   exit -1
 fi
 
-PROVIDER_ID=`openstack network create --share \
+export PROVIDER_ID=`openstack network create --share \
 		--provider-physical-network provider \
 		--provider-network-type flat provider \
 		--external \
         	-f value -c id`
 
-SUBNET_ID=`openstack subnet create              \
+echo "Network ID is '${PROVIDER_ID}'"
+
+export SUBNET_ID=`openstack subnet create              \
         --network ${PROVIDER_ID}                   \
         --subnet-range $PROVIDER_CIDR         \
         $PROVIDER_CIDR -f value -c id`
+
+echo "Subnet ID is '${SUBNET_ID}'"
 
 # assign this gateway to all routers
 for ROUTER_ID in `openstack router list -f value -c ID`
